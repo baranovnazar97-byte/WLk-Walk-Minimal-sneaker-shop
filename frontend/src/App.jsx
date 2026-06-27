@@ -7,7 +7,11 @@ function App() {
   const [shoes, setShoes] = useState([]);
   const [filter, setFilter] = useState('Все');
   const [search, setSearch] = useState('');
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +24,10 @@ function App() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const postData = async (event) => {
     event.preventDefault();
