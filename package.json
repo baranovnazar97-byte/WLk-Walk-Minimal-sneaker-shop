@@ -1,0 +1,28 @@
+{
+  "name": "sneaker_shop",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/baranovnazar97-byte/sneaker_shop#readme",
+  "bugs": {
+    "url": "https://github.com/baranovnazar97-byte/sneaker_shop/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baranovnazar97-byte/sneaker_shop.git"
+  },
+  "license": "ISC",
+  "author": "Nazar Baranov",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev:backend": "nodemon backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
