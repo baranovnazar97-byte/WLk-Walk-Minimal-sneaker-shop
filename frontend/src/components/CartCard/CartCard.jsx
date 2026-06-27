@@ -5,6 +5,7 @@ const CartCard = ({ item, deleteFromCart }) => {
     <div className="card">
       <h1>{item.title}</h1>
       <h2>{item.price}</h2>
+      <h2>{item.quantity}</h2>
       <button onClick={() => deleteFromCart(item.id)}>
         Удалить из корзины
       </button>

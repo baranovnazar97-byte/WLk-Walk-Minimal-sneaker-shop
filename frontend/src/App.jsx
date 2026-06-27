@@ -60,11 +60,35 @@ function App() {
   };
 
   const addToCart = (item) => {
-    setCart([...cart, item]);
+    const isItemInCart = cart.find((cartItem) => cartItem.id === item.id);
+
+    if (isItemInCart) {
+      setCart(
+        cart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem,
+        ),
+      );
+    } else {
+      setCart([...cart, { ...item, quantity: 1 }]);
+    }
   };
 
   const deleteFromCart = (itemId) => {
-    setCart(cart.filter((item) => item.id !== itemId));
+    const deletingItem = cart.find((item) => item.id === itemId);
+
+    if (deletingItem.quantity > 1) {
+      setCart(
+        cart.map((cartItem) =>
+          cartItem.id === itemId
+            ? { ...cartItem, quantity: cartItem.quantity - 1 }
+            : cartItem,
+        ),
+      );
+    } else {
+      setCart(cart.filter((item) => item.id !== itemId));
+    }
   };
 
   return (
@@ -119,12 +143,12 @@ function App() {
           ))}
       </div>
       <h2>
-        Корзина. Общая цена -{' '}
-        {cart.length <= 0
-          ? '0'
-          : cart
-              .map((item) => parseInt(item.price))
-              .reduce((i, sum) => sum + i, 0)}
+        Корзина. Общая сумма -{' '}
+        {cart
+          .map((item) =>
+            item.quantity > 0 ? item.price * item.quantity : item.price,
+          )
+          .reduce((i, sum) => i + sum, 0)}
       </h2>
       <div className="card-grid cart">
         {cart.length <= 0
