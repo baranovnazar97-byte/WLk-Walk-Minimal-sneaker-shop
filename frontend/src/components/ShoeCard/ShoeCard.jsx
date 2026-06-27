@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './ShoeCard.css';
 
-const ShoeCard = ({ item, handleDelete, addToCart }) => {
+const ShoeCard = ({ item, handleDelete, addToCart, role }) => {
   return (
     <div className="card">
       <h1>{item.title}</h1>
@@ -10,7 +10,9 @@ const ShoeCard = ({ item, handleDelete, addToCart }) => {
       <h2>{item.price}</h2>
       <Link to={`/shoes/${item.id}`}>Подробнее</Link>
       <button onClick={() => addToCart(item)}>Добавить в корзину</button>
-      <button onClick={() => handleDelete(item.id)}>Удалить</button>
+      {role === 'admin' ? (
+        <button onClick={() => handleDelete(item.id)}>Удалить</button>
+      ) : null}
     </div>
   );
 };

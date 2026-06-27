@@ -1,0 +1,14 @@
+.product-container {
+  margin-top: 30px;
+  display: flex;
+
+  img {
+    height: 500px;
+    width: 500px;
+    object-fit: cover;
+  }
+}
+
+.product-info {
+  margin-left: 15%;
+}

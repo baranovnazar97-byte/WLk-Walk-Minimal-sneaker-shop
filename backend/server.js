@@ -22,6 +22,9 @@ app.get('/api/shoes/:id', (req, res) => {
 });
 
 app.post('/api/shoes', (req, res) => {
+  if (req.headers['role-user'] === 'user') {
+    return res.status(403).send('Недостаточно прав');
+  }
   const { brand, title, price, category, sizes, imageUrl } = req.body;
 
   const newShoe = {
@@ -40,6 +43,9 @@ app.post('/api/shoes', (req, res) => {
 });
 
 app.delete('/api/shoes/:id', (req, res) => {
+  if (req.headers['role-user'] === 'user') {
+    return res.status(403).send('Недостаточно прав');
+  }
   const id = parseInt(req.params.id);
 
   shoesMockData = shoesMockData.filter((item) => item.id !== id);

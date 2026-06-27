@@ -13,6 +13,7 @@ function MainPage() {
 
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [role, setRole] = useState('user');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +42,7 @@ function MainPage() {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
+        'role-user': role,
       },
       body: JSON.stringify(shoeData),
     });
@@ -53,6 +55,9 @@ function MainPage() {
   const handleDelete = async (id) => {
     await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
       method: 'delete',
+      headers: {
+        'role-user': role,
+      },
     });
 
     setShoes((prev) => prev.filter((item) => item.id !== id));
@@ -100,23 +105,35 @@ function MainPage() {
     }
   };
 
+  const SelectedRole = (event) => {
+    setRole(event.target.value);
+  };
+
   return (
     <>
-      <form className="form-post" onSubmit={postData}>
-        <label htmlFor="brand">Бренд</label>
-        <input type="text" name="brand" />
-        <label htmlFor="title">Название</label>
-        <input type="text" name="title" />
-        <label htmlFor="price">Цена</label>
-        <input type="number" name="price" id="price" />
-        <label htmlFor="category">Категория</label>
-        <input type="text" name="category" id="category" />
-        <label htmlFor="sizes">Размер</label>
-        <input type="number" name="sizes" id="sizes" />
-        <label htmlFor="imageUrl">Картинка</label>
-        <input type="text" name="imageUrl" id="imageUrl" />
-        <button type="submit">Добавить</button>
-      </form>
+      <select name="role" id="role" onChange={SelectedRole}>
+        <option value="user">Войти как пользователь</option>
+        <option value="admin">Войти как Админ</option>
+      </select>
+      {role === 'admin' ? (
+        <>
+          <form className="form-post" onSubmit={postData}>
+            <label htmlFor="brand">Бренд</label>
+            <input type="text" name="brand" />
+            <label htmlFor="title">Название</label>
+            <input type="text" name="title" />
+            <label htmlFor="price">Цена</label>
+            <input type="number" name="price" id="price" />
+            <label htmlFor="category">Категория</label>
+            <input type="text" name="category" id="category" />
+            <label htmlFor="sizes">Размер</label>
+            <input type="number" name="sizes" id="sizes" />
+            <label htmlFor="imageUrl">Картинка</label>
+            <input type="text" name="imageUrl" id="imageUrl" />
+            <button type="submit">Добавить</button>
+          </form>
+        </>
+      ) : null}
       <h2>{filter}</h2>
       <div>
         <button onClick={() => editFilter('Все')}>Все</button>
@@ -148,28 +165,33 @@ function MainPage() {
               item={item}
               handleDelete={handleDelete}
               addToCart={addToCart}
+              role={role}
             />
           ))}
       </div>
-      <h2>
-        Корзина. Общая сумма -{' '}
-        {cart
-          .map((item) =>
-            item.quantity > 0 ? item.price * item.quantity : item.price,
-          )
-          .reduce((i, sum) => i + sum, 0)}
-      </h2>
-      <div className="card-grid cart">
-        {cart.length <= 0
-          ? null
-          : cart.map((item) => (
-              <CartCard
-                key={item.id}
-                item={item}
-                deleteFromCart={deleteFromCart}
-              />
-            ))}
-      </div>
+      {role === 'admin' ? null : (
+        <>
+          <h2>
+            Корзина. Общая сумма -{' '}
+            {cart
+              .map((item) =>
+                item.quantity > 0 ? item.price * item.quantity : item.price,
+              )
+              .reduce((i, sum) => i + sum, 0)}
+          </h2>
+          <div className="card-grid cart">
+            {cart.length <= 0
+              ? null
+              : cart.map((item) => (
+                  <CartCard
+                    key={item.id}
+                    item={item}
+                    deleteFromCart={deleteFromCart}
+                  />
+                ))}
+          </div>
+        </>
+      )}
     </>
   );
 }
