@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import ShoeCard from './components/ShoeCard';
+import CartCard from './components/CartCard/CartCard';
+import ShoeCard from './components/ShoeCard/ShoeCard';
 
 function App() {
   const [shoes, setShoes] = useState([]);
   const [filter, setFilter] = useState('Все');
   const [search, setSearch] = useState('');
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +59,14 @@ function App() {
     setSearch(text);
   };
 
+  const addToCart = (item) => {
+    setCart([...cart, item]);
+  };
+
+  const deleteFromCart = (itemId) => {
+    setCart(cart.filter((item) => item.id !== itemId));
+  };
+
   return (
     <>
       <form className="form-post" onSubmit={postData}>
@@ -100,8 +110,32 @@ function App() {
               item.brand.toLowerCase().includes(search),
           )
           .map((item) => (
-            <ShoeCard key={item.id} item={item} handleDelete={handleDelete} />
+            <ShoeCard
+              key={item.id}
+              item={item}
+              handleDelete={handleDelete}
+              addToCart={addToCart}
+            />
           ))}
+      </div>
+      <h2>
+        Корзина. Общая цена -{' '}
+        {cart.length <= 0
+          ? '0'
+          : cart
+              .map((item) => parseInt(item.price))
+              .reduce((i, sum) => sum + i, 0)}
+      </h2>
+      <div className="card-grid cart">
+        {cart.length <= 0
+          ? null
+          : cart.map((item) => (
+              <CartCard
+                key={item.id}
+                item={item}
+                deleteFromCart={deleteFromCart}
+              />
+            ))}
       </div>
     </>
   );
