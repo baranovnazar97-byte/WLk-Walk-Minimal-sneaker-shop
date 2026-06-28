@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './ShoeCard.css';
 
-const ShoeCard = ({ item, handleDelete, addToCart, role }) => {
+const ShoeCard = ({ item, handleDelete, addToCart, role, editMode }) => {
   return (
     <div className="card">
       <h1>{item.title}</h1>
@@ -12,6 +12,9 @@ const ShoeCard = ({ item, handleDelete, addToCart, role }) => {
       <button onClick={() => addToCart(item)}>Добавить в корзину</button>
       {role === 'admin' ? (
         <button onClick={() => handleDelete(item.id)}>Удалить</button>
+      ) : null}
+      {role === 'admin' ? (
+        <button onClick={() => editMode(item.id)}>Редактрировать</button>
       ) : null}
     </div>
   );

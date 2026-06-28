@@ -14,6 +14,20 @@ function MainPage() {
     return savedCart ? JSON.parse(savedCart) : [];
   });
   const [role, setRole] = useState('user');
+  const [mode, setMode] = useState(false);
+  const [defForm, setDefForm] = useState();
+  const [shoeSelect, setShoeSelect] = useState();
+
+  const editMode = async (id) => {
+    setMode((prev) => !prev);
+
+    const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`);
+
+    const data = await res.json();
+
+    setDefForm(data);
+    setShoeSelect(id);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +64,26 @@ function MainPage() {
     const newShoe = await res.json();
 
     setShoes((prev) => [...prev, newShoe]);
+  };
+
+  const patchData = async (event, id) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const shoeData = Object.fromEntries(formData.entries());
+
+    const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(shoeData),
+    });
+
+    const patchShoe = await res.json();
+
+    setShoes(shoes.map((item) => (item.id === id ? patchShoe : item)));
   };
 
   const handleDelete = async (id) => {
@@ -116,23 +150,72 @@ function MainPage() {
         <option value="admin">Войти как Админ</option>
       </select>
       {role === 'admin' ? (
-        <>
-          <form className="form-post" onSubmit={postData}>
-            <label htmlFor="brand">Бренд</label>
-            <input type="text" name="brand" />
-            <label htmlFor="title">Название</label>
-            <input type="text" name="title" />
-            <label htmlFor="price">Цена</label>
-            <input type="number" name="price" id="price" />
-            <label htmlFor="category">Категория</label>
-            <input type="text" name="category" id="category" />
-            <label htmlFor="sizes">Размер</label>
-            <input type="number" name="sizes" id="sizes" />
-            <label htmlFor="imageUrl">Картинка</label>
-            <input type="text" name="imageUrl" id="imageUrl" />
-            <button type="submit">Добавить</button>
-          </form>
-        </>
+        mode ? (
+          typeof defForm === 'undefined' ? (
+            'Загрузка...'
+          ) : (
+            <>
+              <h2>Форма редактирования</h2>
+              <form
+                className="form-patch"
+                onSubmit={(event) => patchData(event, shoeSelect)}
+              >
+                <label htmlFor="brand">Бренд</label>
+                <input type="text" name="brand" defaultValue={defForm.brand} />
+                <label htmlFor="title">Название</label>
+                <input type="text" name="title" defaultValue={defForm.title} />
+                <label htmlFor="price">Цена</label>
+                <input
+                  type="number"
+                  name="price"
+                  id="price"
+                  defaultValue={defForm.price}
+                />
+                <label htmlFor="category">Категория</label>
+                <input
+                  type="text"
+                  name="category"
+                  id="category"
+                  defaultValue={defForm.category}
+                />
+                <label htmlFor="sizes">Размер</label>
+                <input
+                  type="number"
+                  name="sizes"
+                  id="sizes"
+                  defaultValue={defForm.sizes}
+                />
+                <label htmlFor="imageUrl">Картинка</label>
+                <input
+                  type="text"
+                  name="imageUrl"
+                  id="imageUrl"
+                  defaultValue={defForm.imageUrl}
+                />
+                <button type="submit">Сохранить изменение</button>
+              </form>
+            </>
+          )
+        ) : (
+          <>
+            <h2>Форма добавления</h2>
+            <form className="form-post" onSubmit={postData}>
+              <label htmlFor="brand">Бренд</label>
+              <input type="text" name="brand" />
+              <label htmlFor="title">Название</label>
+              <input type="text" name="title" />
+              <label htmlFor="price">Цена</label>
+              <input type="number" name="price" id="price" />
+              <label htmlFor="category">Категория</label>
+              <input type="text" name="category" id="category" />
+              <label htmlFor="sizes">Размер</label>
+              <input type="number" name="sizes" id="sizes" />
+              <label htmlFor="imageUrl">Картинка</label>
+              <input type="text" name="imageUrl" id="imageUrl" />
+              <button type="submit">Добавить</button>
+            </form>
+          </>
+        )
       ) : null}
       <h2>{filter}</h2>
       <div>
@@ -166,6 +249,7 @@ function MainPage() {
               handleDelete={handleDelete}
               addToCart={addToCart}
               role={role}
+              editMode={editMode}
             />
           ))}
       </div>
