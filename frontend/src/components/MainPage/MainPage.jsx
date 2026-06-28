@@ -6,6 +6,8 @@ import PostForm from '../PostForm/PostForm';
 import ShoeCard from '../ShoeCard/ShoeCard';
 import './MainPage.css';
 
+let notificationTimer;
+
 function MainPage() {
   const [shoes, setShoes] = useState([]);
   const [filter, setFilter] = useState('Все');
@@ -19,6 +21,7 @@ function MainPage() {
   const [mode, setMode] = useState(false);
   const [defForm, setDefForm] = useState();
   const [shoeSelect, setShoeSelect] = useState();
+  const [notification, setNotification] = useState('');
 
   const editMode = async (id) => {
     setMode((prev) => !prev);
@@ -29,6 +32,15 @@ function MainPage() {
 
     setDefForm(data);
     setShoeSelect(id);
+  };
+
+  const callNotification = (text) => {
+    clearTimeout(notificationTimer);
+    setNotification(text);
+
+    notificationTimer = setTimeout(() => {
+      setNotification('');
+    }, 3000);
   };
 
   useEffect(() => {
@@ -66,6 +78,8 @@ function MainPage() {
     const newShoe = await res.json();
 
     setShoes((prev) => [...prev, newShoe]);
+
+    callNotification('Товар добавлен в каталог');
   };
 
   const patchData = async (event, id) => {
@@ -86,6 +100,8 @@ function MainPage() {
     const patchShoe = await res.json();
 
     setShoes(shoes.map((item) => (item.id === id ? patchShoe : item)));
+
+    callNotification('Изменения успешно сохранены');
   };
 
   const handleDelete = async (id) => {
@@ -97,6 +113,8 @@ function MainPage() {
     });
 
     setShoes((prev) => prev.filter((item) => item.id !== id));
+
+    callNotification('Товар удален');
   };
 
   const editFilter = (filter) => {
@@ -123,6 +141,8 @@ function MainPage() {
     } else {
       setCart([...cart, { ...item, quantity: 1 }]);
     }
+
+    callNotification('Товар добавлен в корзину');
   };
 
   const deleteFromCart = (itemId) => {
@@ -220,6 +240,9 @@ function MainPage() {
           </div>
         </>
       )}
+      {notification !== '' ? (
+        <div className="notification">{notification}</div>
+      ) : null}
     </>
   );
 }

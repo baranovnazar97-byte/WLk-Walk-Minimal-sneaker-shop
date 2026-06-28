@@ -11,3 +11,10 @@
   align-items: flex-start;
   margin-bottom: 20px;
 }
+
+.notification {
+  padding: 20px;
+  background-color: antiquewhite;
+  position: fixed;
+  left: 0;
+}
