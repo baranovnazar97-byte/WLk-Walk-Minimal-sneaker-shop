@@ -1,4 +1,12 @@
-const PatchForm = ({ patchData, shoeSelect, defForm }) => {
+import { Shoe } from '../MainPage/MainPage';
+
+interface PatchData {
+  patchData: (event: React.FormEvent<HTMLFormElement>, id: number) => void;
+  shoeSelect: number;
+  defForm: Shoe | undefined;
+}
+
+const PatchForm = ({ patchData, shoeSelect, defForm }: PatchData) => {
   if (!defForm) return 'Загрузка...';
 
   return (

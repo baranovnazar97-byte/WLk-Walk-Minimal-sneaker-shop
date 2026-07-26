@@ -1,4 +1,8 @@
-const PostForm = ({ postData }) => {
+interface PostProp {
+  postData: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const PostForm = ({ postData }: PostProp) => {
   return (
     <>
       <h2>Форма добавления</h2>

@@ -1,6 +1,18 @@
 import './CartCard.css';
 
-const CartCard = ({ item, deleteFromCart }) => {
+interface CartItem {
+  id: number;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartCardProps {
+  item: CartItem;
+  deleteFromCart: (id: number) => void;
+}
+
+const CartCard = ({ item, deleteFromCart }: CartCardProps) => {
   return (
     <div className="card">
       <h1>{item.title}</h1>

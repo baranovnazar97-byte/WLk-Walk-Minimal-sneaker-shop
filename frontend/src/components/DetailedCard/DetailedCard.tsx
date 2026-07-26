@@ -2,9 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './DetailedCard.css';
 
+interface ProductData {
+  imageUrl: string;
+  title: string;
+  brand: string;
+  sizes: number;
+  price: number;
+}
+
 const DetailedCard = () => {
-  const { id } = useParams();
-  const [card, setCard] = useState();
+  const { id } = useParams<{ id: string }>();
+  const [card, setCard] = useState<ProductData | null>();
 
   useEffect(() => {
     const fetchData = async () => {

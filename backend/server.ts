@@ -1,7 +1,8 @@
-const e = require('express');
-require('dotenv').config();
-let shoesMockData = require('./database');
-const cors = require('cors');
+import cors from 'cors';
+import dotenv from 'dotenv';
+import e from 'express';
+import shoesMockData, { Shoe } from './database';
+dotenv.config();
 
 const app = e();
 
@@ -25,7 +26,7 @@ app.post('/api/shoes', (req, res) => {
   if (req.headers['role-user'] === 'user') {
     return res.status(403).send('Недостаточно прав');
   }
-  const { brand, title, price, category, sizes, imageUrl } = req.body;
+  const { brand, title, price, category, sizes, imageUrl } = req.body as Shoe;
 
   const newShoe = {
     id: Date.now(),
@@ -48,7 +49,11 @@ app.delete('/api/shoes/:id', (req, res) => {
   }
   const id = parseInt(req.params.id);
 
-  shoesMockData = shoesMockData.filter((item) => item.id !== id);
+  shoesMockData.splice(
+    0,
+    shoesMockData.length,
+    ...shoesMockData.filter((item) => item.id !== id),
+  );
 
   res.status(200).json(shoesMockData);
 });
@@ -56,13 +61,14 @@ app.delete('/api/shoes/:id', (req, res) => {
 app.patch('/api/shoes/:id', (req, res) => {
   const id = parseInt(req.params.id);
 
-  const updates = req.body;
+  const updates = req.body as Partial<Shoe>;
 
   const shoe = shoesMockData.find((item) => item.id === id);
 
-  Object.assign(shoe, updates);
-
-  res.status(200).json(shoe);
+  if (shoe) {
+    Object.assign(shoe, updates);
+    res.status(200).json(shoe);
+  }
 });
 
 app.listen(PORT, () => {

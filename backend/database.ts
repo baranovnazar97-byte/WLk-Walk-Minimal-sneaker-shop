@@ -1,3 +1,13 @@
+export interface Shoe {
+  id: number;
+  imageUrl: string;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  sizes: number;
+}
+
 const shoesMockData = [
   {
     id: 1,
@@ -20,4 +30,4 @@ const shoesMockData = [
   },
 ];
 
-module.exports = shoesMockData;
+export default shoesMockData;

@@ -1,7 +1,23 @@
 import { Link } from 'react-router-dom';
 import './ShoeCard.css';
 
-const ShoeCard = ({ item, handleDelete, addToCart, role, editMode }) => {
+import { Shoe } from '../MainPage/MainPage';
+
+interface ShoeProp {
+  item: Shoe;
+  handleDelete: (id: number) => void;
+  addToCart: (item: Shoe) => void;
+  role: string;
+  editMode: (id: number) => void;
+}
+
+const ShoeCard = ({
+  item,
+  handleDelete,
+  addToCart,
+  role,
+  editMode,
+}: ShoeProp) => {
   return (
     <div className="card">
       <h1>{item.title}</h1>
@@ -14,7 +30,7 @@ const ShoeCard = ({ item, handleDelete, addToCart, role, editMode }) => {
         <button onClick={() => handleDelete(item.id)}>Удалить</button>
       ) : null}
       {role === 'admin' ? (
-        <button onClick={() => editMode(item.id)}>Редактрировать</button>
+        <button onClick={() => editMode(item.id)}>Редактировать</button>
       ) : null}
     </div>
   );

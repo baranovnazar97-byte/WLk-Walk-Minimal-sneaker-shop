@@ -6,24 +6,38 @@ import PostForm from '../PostForm/PostForm';
 import ShoeCard from '../ShoeCard/ShoeCard';
 import './MainPage.css';
 
-let notificationTimer;
+let notificationTimer: number;
+
+export interface Shoe {
+  id: number;
+  imageUrl: string;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  sizes: number;
+}
+
+interface CartItem extends Shoe {
+  quantity: number;
+}
 
 function MainPage() {
-  const [shoes, setShoes] = useState([]);
+  const [shoes, setShoes] = useState<Shoe[]>([]);
   const [filter, setFilter] = useState('Все');
   const [search, setSearch] = useState('');
-  const [cart, setCart] = useState(() => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem('cart');
 
     return savedCart ? JSON.parse(savedCart) : [];
   });
   const [role, setRole] = useState('user');
   const [mode, setMode] = useState(false);
-  const [defForm, setDefForm] = useState();
-  const [shoeSelect, setShoeSelect] = useState();
+  const [defForm, setDefForm] = useState<Shoe | undefined>();
+  const [shoeSelect, setShoeSelect] = useState<number>();
   const [notification, setNotification] = useState('');
 
-  const editMode = async (id) => {
+  const editMode = async (id: number) => {
     setMode((prev) => !prev);
 
     const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`);
@@ -34,7 +48,7 @@ function MainPage() {
     setShoeSelect(id);
   };
 
-  const callNotification = (text) => {
+  const callNotification = (text: string) => {
     clearTimeout(notificationTimer);
     setNotification(text);
 
@@ -59,10 +73,10 @@ function MainPage() {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  const postData = async (event) => {
+  const postData = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
+    const formData = new FormData(event.currentTarget);
 
     const shoeData = Object.fromEntries(formData.entries());
 
@@ -82,10 +96,13 @@ function MainPage() {
     callNotification('Товар добавлен в каталог');
   };
 
-  const patchData = async (event, id) => {
+  const patchData = async (
+    event: React.FormEvent<HTMLFormElement>,
+    id: number,
+  ) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
+    const formData = new FormData(event.currentTarget);
 
     const shoeData = Object.fromEntries(formData.entries());
 
@@ -104,7 +121,7 @@ function MainPage() {
     callNotification('Изменения успешно сохранены');
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
       method: 'delete',
       headers: {
@@ -117,17 +134,17 @@ function MainPage() {
     callNotification('Товар удален');
   };
 
-  const editFilter = (filter) => {
+  const editFilter = (filter: string) => {
     setFilter(filter);
   };
 
-  const editSearch = (event) => {
+  const editSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const text = event.target.value.toLowerCase();
 
     setSearch(text);
   };
 
-  const addToCart = (item) => {
+  const addToCart = (item: Shoe) => {
     const isItemInCart = cart.find((cartItem) => cartItem.id === item.id);
 
     if (isItemInCart) {
@@ -145,23 +162,25 @@ function MainPage() {
     callNotification('Товар добавлен в корзину');
   };
 
-  const deleteFromCart = (itemId) => {
+  const deleteFromCart = (itemId: number) => {
     const deletingItem = cart.find((item) => item.id === itemId);
 
-    if (deletingItem.quantity > 1) {
-      setCart(
-        cart.map((cartItem) =>
-          cartItem.id === itemId
-            ? { ...cartItem, quantity: cartItem.quantity - 1 }
-            : cartItem,
-        ),
-      );
-    } else {
-      setCart(cart.filter((item) => item.id !== itemId));
+    if (deletingItem) {
+      if (deletingItem.quantity > 1) {
+        setCart(
+          cart.map((cartItem) =>
+            cartItem.id === itemId
+              ? { ...cartItem, quantity: cartItem.quantity - 1 }
+              : cartItem,
+          ),
+        );
+      } else {
+        setCart(cart.filter((item) => item.id !== itemId));
+      }
     }
   };
 
-  const SelectedRole = (event) => {
+  const SelectedRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(event.target.value);
   };
 
@@ -172,7 +191,7 @@ function MainPage() {
         <option value="admin">Войти как Админ</option>
       </select>
       {role === 'admin' &&
-        (mode ? (
+        (mode && shoeSelect ? (
           <PatchForm
             patchData={patchData}
             shoeSelect={shoeSelect}
