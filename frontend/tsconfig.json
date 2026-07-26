@@ -6,7 +6,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    /* Строгий режим (твой выбор) */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -14,7 +13,6 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
 
-    /* Дополнительные проверки для чистого кода */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,

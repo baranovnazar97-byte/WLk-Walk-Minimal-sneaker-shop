@@ -6,7 +6,6 @@
     "outDir": "./dist",
     "rootDir": "./",
 
-    /* Твой любимый строгий режим */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
