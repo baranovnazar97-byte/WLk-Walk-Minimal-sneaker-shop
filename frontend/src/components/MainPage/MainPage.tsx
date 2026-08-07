@@ -8,6 +8,7 @@ import './MainPage.css';
 
 import { Shoe } from '../../types/cart';
 import Cart from '../Cart/Cart';
+import CatalogControls from '../CatalogControls/CatalogControls';
 
 function MainPage() {
   let notificationTimer: number;
@@ -173,7 +174,7 @@ function MainPage() {
     }
   };
 
-  const editFilter = (filter: string) => {
+  const changeFilter = (filter: string) => {
     setFilter(filter);
   };
 
@@ -182,6 +183,9 @@ function MainPage() {
 
     setSearch(text);
   };
+
+  const setCategories = new Set(shoes.map((item) => item.category));
+  const listCategories = Array.from(setCategories);
 
   const SelectedRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(event.target.value);
@@ -203,15 +207,11 @@ function MainPage() {
         ) : (
           <PostForm postData={postData} />
         ))}
-      <h2>{filter}</h2>
-      <div>
-        <button onClick={() => editFilter('Все')}>Все</button>
-        <button onClick={() => editFilter('Кроссовки')}>Кроссовки</button>
-        <button onClick={() => editFilter('Кеды')}>Кеды</button>
-        <button onClick={() => editFilter('Верхняя одежда')}>
-          Верхняя одежда
-        </button>
-      </div>
+      <CatalogControls
+        filter={filter}
+        changeFilter={changeFilter}
+        listCategories={listCategories}
+      />
       <h2>Товаров всего: {shoes.length}</h2>
       <label htmlFor="search">Поиск по товару</label>
       <input
