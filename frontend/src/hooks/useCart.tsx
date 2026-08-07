@@ -1,0 +1,64 @@
+import { useEffect, useState } from 'react';
+import { CartItem, Shoe } from '../types/cart';
+
+const useCart = () => {
+  const savedCart = localStorage.getItem('cart');
+
+  const [cart, setCart] = useState<CartItem[]>(
+    savedCart ? JSON.parse(savedCart) : [],
+  );
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  const cartTotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+
+  const addToCart = (item: Shoe) => {
+    setCart((prev) => {
+      const isItemInCart = prev.find((cartItem) => cartItem.id === item.id);
+
+      if (isItemInCart) {
+        return prev.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem,
+        );
+      } else {
+        return [...prev, { ...item, quantity: 1 }];
+      }
+    });
+  };
+
+  const deleteFromCart = (id: number) => {
+    setCart((prev) => {
+      const deletingItem = prev.find((item) => item.id === id);
+
+      if (deletingItem) {
+        if (deletingItem.quantity > 1) {
+          return prev.map((cartItem) =>
+            cartItem.id === id
+              ? { ...cartItem, quantity: cartItem.quantity - 1 }
+              : cartItem,
+          );
+        } else {
+          return prev.filter((item) => item.id !== id);
+        }
+      }
+
+      return prev;
+    });
+  };
+
+  return {
+    cart,
+    addToCart,
+    deleteFromCart,
+    cartTotal,
+  };
+};
+
+export default useCart;

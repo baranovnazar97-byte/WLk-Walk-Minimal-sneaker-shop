@@ -1,0 +1,13 @@
+export interface Shoe {
+  id: number;
+  imageUrl: string;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  sizes: number;
+}
+
+export interface CartItem extends Shoe {
+  quantity: number;
+}

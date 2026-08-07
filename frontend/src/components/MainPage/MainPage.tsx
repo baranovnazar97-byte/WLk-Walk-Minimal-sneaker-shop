@@ -1,36 +1,20 @@
 import { useEffect, useState } from 'react';
 import '../../App.css';
-import CartCard from '../CartCard/CartCard';
+import useCart from '../../hooks/useCart';
 import PatchForm from '../PatchForm/PatchForm';
 import PostForm from '../PostForm/PostForm';
 import ShoeCard from '../ShoeCard/ShoeCard';
 import './MainPage.css';
 
-let notificationTimer: number;
-
-export interface Shoe {
-  id: number;
-  imageUrl: string;
-  title: string;
-  brand: string;
-  category: string;
-  price: number;
-  sizes: number;
-}
-
-interface CartItem extends Shoe {
-  quantity: number;
-}
+import { Shoe } from '../../types/cart';
+import Cart from '../Cart/Cart';
 
 function MainPage() {
+  let notificationTimer: number;
   const [shoes, setShoes] = useState<Shoe[]>([]);
   const [filter, setFilter] = useState('Все');
   const [search, setSearch] = useState('');
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    const savedCart = localStorage.getItem('cart');
-
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const { cart, addToCart, deleteFromCart, cartTotal } = useCart();
   const [role, setRole] = useState('user');
   const [mode, setMode] = useState(false);
   const [defForm, setDefForm] = useState<Shoe | undefined>();
@@ -38,14 +22,25 @@ function MainPage() {
   const [notification, setNotification] = useState('');
 
   const editMode = async (id: number) => {
-    setMode((prev) => !prev);
+    try {
+      const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`);
 
-    const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`);
+      if (!res.ok) {
+        throw new Error('Произошла ошибка на сервере');
+      }
 
-    const data = await res.json();
+      const data = await res.json();
 
-    setDefForm(data);
-    setShoeSelect(id);
+      setMode((prev) => !prev);
+      setDefForm(data);
+      setShoeSelect(id);
+    } catch (error) {
+      if (error instanceof Error) {
+        callNotification(`Ошибка ${error.message}`);
+      } else {
+        console.log('Неизвестный тип ошибки:', error);
+      }
+    }
   };
 
   const callNotification = (text: string) => {
@@ -59,19 +54,27 @@ function MainPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('http://127.0.0.1:4000/api/shoes');
+      try {
+        const res = await fetch('http://127.0.0.1:4000/api/shoes');
 
-      const data = await res.json();
+        if (!res.ok) {
+          throw new Error('Произошла ошибка на сервере');
+        }
 
-      setShoes(data);
+        const data = await res.json();
+
+        setShoes(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          callNotification(`Ошибка: ${error.message}`);
+        } else {
+          console.log('Неизвестный тип ошибки:', error);
+        }
+      }
     };
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
 
   const postData = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,20 +83,32 @@ function MainPage() {
 
     const shoeData = Object.fromEntries(formData.entries());
 
-    const res = await fetch('http://127.0.0.1:4000/api/shoes', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'role-user': role,
-      },
-      body: JSON.stringify(shoeData),
-    });
+    try {
+      const res = await fetch('http://127.0.0.1:4000/api/shoes', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'role-user': role,
+        },
+        body: JSON.stringify(shoeData),
+      });
 
-    const newShoe = await res.json();
+      if (!res.ok) {
+        throw new Error('Произошла ошибка на сервере');
+      }
 
-    setShoes((prev) => [...prev, newShoe]);
+      const newShoe = await res.json();
 
-    callNotification('Товар добавлен в каталог');
+      setShoes((prev) => [...prev, newShoe]);
+
+      callNotification('Товар добавлен в каталог');
+    } catch (error) {
+      if (error instanceof Error) {
+        callNotification(`Ошибка: ${error.message}`);
+      } else {
+        console.log('Неизвестный тип ошибки:', error);
+      }
+    }
   };
 
   const patchData = async (
@@ -106,32 +121,56 @@ function MainPage() {
 
     const shoeData = Object.fromEntries(formData.entries());
 
-    const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(shoeData),
-    });
+    try {
+      const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(shoeData),
+      });
 
-    const patchShoe = await res.json();
+      if (!res.ok) {
+        throw new Error('Произошла ошибка на сервере');
+      }
 
-    setShoes(shoes.map((item) => (item.id === id ? patchShoe : item)));
+      const patchShoe = await res.json();
 
-    callNotification('Изменения успешно сохранены');
+      setShoes(shoes.map((item) => (item.id === id ? patchShoe : item)));
+
+      callNotification('Изменения успешно сохранены');
+    } catch (error) {
+      if (error instanceof Error) {
+        callNotification(`Ошибка: ${error.message}`);
+      } else {
+        console.log('Неизвестный тип ошибки:', error);
+      }
+    }
   };
 
   const handleDelete = async (id: number) => {
-    await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
-      method: 'delete',
-      headers: {
-        'role-user': role,
-      },
-    });
+    try {
+      const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`, {
+        method: 'delete',
+        headers: {
+          'role-user': role,
+        },
+      });
 
-    setShoes((prev) => prev.filter((item) => item.id !== id));
+      if (!res.ok) {
+        throw new Error('Произошла ошибка на сервере');
+      }
 
-    callNotification('Товар удален');
+      setShoes((prev) => prev.filter((item) => item.id !== id));
+
+      callNotification('Товар удален');
+    } catch (error) {
+      if (error instanceof Error) {
+        callNotification(`Ошибка: ${error.message}`);
+      } else {
+        console.log('Неизвестный тип ошибки:', error);
+      }
+    }
   };
 
   const editFilter = (filter: string) => {
@@ -142,42 +181,6 @@ function MainPage() {
     const text = event.target.value.toLowerCase();
 
     setSearch(text);
-  };
-
-  const addToCart = (item: Shoe) => {
-    const isItemInCart = cart.find((cartItem) => cartItem.id === item.id);
-
-    if (isItemInCart) {
-      setCart(
-        cart.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem,
-        ),
-      );
-    } else {
-      setCart([...cart, { ...item, quantity: 1 }]);
-    }
-
-    callNotification('Товар добавлен в корзину');
-  };
-
-  const deleteFromCart = (itemId: number) => {
-    const deletingItem = cart.find((item) => item.id === itemId);
-
-    if (deletingItem) {
-      if (deletingItem.quantity > 1) {
-        setCart(
-          cart.map((cartItem) =>
-            cartItem.id === itemId
-              ? { ...cartItem, quantity: cartItem.quantity - 1 }
-              : cartItem,
-          ),
-        );
-      } else {
-        setCart(cart.filter((item) => item.id !== itemId));
-      }
-    }
   };
 
   const SelectedRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -237,27 +240,12 @@ function MainPage() {
           ))}
       </div>
       {role === 'admin' ? null : (
-        <>
-          <h2>
-            Корзина. Общая сумма -{' '}
-            {cart
-              .map((item) =>
-                item.quantity > 0 ? item.price * item.quantity : item.price,
-              )
-              .reduce((i, sum) => i + sum, 0)}
-          </h2>
-          <div className="card-grid cart">
-            {cart.length <= 0
-              ? null
-              : cart.map((item) => (
-                  <CartCard
-                    key={item.id}
-                    item={item}
-                    deleteFromCart={deleteFromCart}
-                  />
-                ))}
-          </div>
-        </>
+        <Cart
+          cartTotal={cartTotal}
+          cart={cart}
+          deleteFromCart={deleteFromCart}
+          addToCart={addToCart}
+        />
       )}
       {notification !== '' ? (
         <div className="notification">{notification}</div>
