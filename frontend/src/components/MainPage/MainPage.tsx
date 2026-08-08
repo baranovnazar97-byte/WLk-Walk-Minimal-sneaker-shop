@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../../App.css';
 import useCart from '../../hooks/useCart';
 import PatchForm from '../PatchForm/PatchForm';
@@ -6,13 +6,13 @@ import PostForm from '../PostForm/PostForm';
 import ShoeCard from '../ShoeCard/ShoeCard';
 import './MainPage.css';
 
+import useFetch from '../../hooks/useFetch';
 import { Shoe } from '../../types/cart';
 import Cart from '../Cart/Cart';
 import CatalogControls from '../CatalogControls/CatalogControls';
 
 function MainPage() {
   let notificationTimer: number;
-  const [shoes, setShoes] = useState<Shoe[]>([]);
   const [filter, setFilter] = useState('Все');
   const [search, setSearch] = useState('');
   const { cart, addToCart, deleteFromCart, cartTotal } = useCart();
@@ -53,29 +53,12 @@ function MainPage() {
     }, 3000);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('http://127.0.0.1:4000/api/shoes');
-
-        if (!res.ok) {
-          throw new Error('Произошла ошибка на сервере');
-        }
-
-        const data = await res.json();
-
-        setShoes(data);
-      } catch (error) {
-        if (error instanceof Error) {
-          callNotification(`Ошибка: ${error.message}`);
-        } else {
-          console.log('Неизвестный тип ошибки:', error);
-        }
-      }
-    };
-
-    fetchData();
-  }, []);
+  const {
+    data: shoes = [],
+    loading,
+    error,
+    refetch,
+  } = useFetch<Shoe[]>('http://127.0.0.1:4000/api/shoes');
 
   const postData = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -98,9 +81,7 @@ function MainPage() {
         throw new Error('Произошла ошибка на сервере');
       }
 
-      const newShoe = await res.json();
-
-      setShoes((prev) => [...prev, newShoe]);
+      await refetch();
 
       callNotification('Товар добавлен в каталог');
     } catch (error) {
@@ -135,9 +116,7 @@ function MainPage() {
         throw new Error('Произошла ошибка на сервере');
       }
 
-      const patchShoe = await res.json();
-
-      setShoes(shoes.map((item) => (item.id === id ? patchShoe : item)));
+      await refetch();
 
       callNotification('Изменения успешно сохранены');
     } catch (error) {
@@ -162,7 +141,7 @@ function MainPage() {
         throw new Error('Произошла ошибка на сервере');
       }
 
-      setShoes((prev) => prev.filter((item) => item.id !== id));
+      await refetch();
 
       callNotification('Товар удален');
     } catch (error) {

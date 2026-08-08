@@ -37,15 +37,6 @@ const shoesMockData = [
     sizes: 35,
     imageUrl: 'https://example.com',
   },
-  {
-    id: 4,
-    brand: 'Тест',
-    title: 'Тест',
-    price: 9999,
-    category: 'Тест',
-    sizes: 35,
-    imageUrl: 'https://example.com',
-  },
 ];
 
 export default shoesMockData;
