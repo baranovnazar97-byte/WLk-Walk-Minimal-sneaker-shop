@@ -183,86 +183,88 @@ function MainPage() {
 
   return (
     <>
-      {splashScreen && <SplashScreen />}
-      <Header editSearch={editSearch} />
-      <div className="main-page">
-        <select name="role" id="role" onChange={SelectedRole}>
-          <option value="user">Войти как пользователь</option>
-          <option value="admin">Войти как Админ</option>
-        </select>
+      <div className="page-container">
+        {splashScreen && <SplashScreen />}
+        <Header editSearch={editSearch} />
+        <div className="main-page">
+          <select name="role" id="role" onChange={SelectedRole}>
+            <option value="user">Войти как пользователь</option>
+            <option value="admin">Войти как Админ</option>
+          </select>
 
-        {role === 'admin' &&
-          (mode && shoeSelect ? (
-            <PatchForm
-              patchData={patchData}
-              shoeSelect={shoeSelect}
-              defForm={defForm}
+          {role === 'admin' &&
+            (mode && shoeSelect ? (
+              <PatchForm
+                patchData={patchData}
+                shoeSelect={shoeSelect}
+                defForm={defForm}
+              />
+            ) : (
+              <PostForm postData={postData} />
+            ))}
+
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <CatalogControls
+                    filter={filter}
+                    changeFilter={changeFilter}
+                    listCategories={listCategories}
+                  />
+
+                  <div className="card-grid">
+                    {shoes
+                      .filter(
+                        (item) => filter === 'all' || item.category === filter,
+                      )
+                      .filter(
+                        (item) =>
+                          item.title.toLowerCase().includes(search) ||
+                          item.brand.toLowerCase().includes(search),
+                      )
+                      .map((item) => (
+                        <ShoeCard
+                          key={item.id}
+                          item={item}
+                          handleDelete={handleDelete}
+                          addToCart={(item) =>
+                            addToCart(item, () =>
+                              callNotification('Товар добавлен в корзину'),
+                            )
+                          }
+                          role={role}
+                          editMode={editMode}
+                        />
+                      ))}
+                  </div>
+                </>
+              }
             />
-          ) : (
-            <PostForm postData={postData} />
-          ))}
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <CatalogControls
-                  filter={filter}
-                  changeFilter={changeFilter}
-                  listCategories={listCategories}
-                />
+            <Route
+              path="/cart"
+              element={
+                role === 'admin' ? null : (
+                  <Cart
+                    cartTotal={cartTotal}
+                    cart={cart}
+                    deleteFromCart={deleteFromCart}
+                    addToCart={addToCart}
+                  />
+                )
+              }
+            />
+          </Routes>
 
-                <div className="card-grid">
-                  {shoes
-                    .filter(
-                      (item) => filter === 'all' || item.category === filter,
-                    )
-                    .filter(
-                      (item) =>
-                        item.title.toLowerCase().includes(search) ||
-                        item.brand.toLowerCase().includes(search),
-                    )
-                    .map((item) => (
-                      <ShoeCard
-                        key={item.id}
-                        item={item}
-                        handleDelete={handleDelete}
-                        addToCart={(item) =>
-                          addToCart(item, () =>
-                            callNotification('Товар добавлен в корзину'),
-                          )
-                        }
-                        role={role}
-                        editMode={editMode}
-                      />
-                    ))}
-                </div>
-              </>
-            }
-          />
+          {notification !== '' ? (
+            <div className="notification">{notification}</div>
+          ) : null}
+        </div>
 
-          <Route
-            path="/cart"
-            element={
-              role === 'admin' ? null : (
-                <Cart
-                  cartTotal={cartTotal}
-                  cart={cart}
-                  deleteFromCart={deleteFromCart}
-                  addToCart={addToCart}
-                />
-              )
-            }
-          />
-        </Routes>
-
-        {notification !== '' ? (
-          <div className="notification">{notification}</div>
-        ) : null}
+        <Footer />
       </div>
-
-      <Footer />
     </>
   );
 }

@@ -34,9 +34,9 @@ const Header = ({ editSearch }: IHeaderProps) => {
         <Link to="/cart" className="user-button">
           <img src={cart} />
         </Link>
-        <button className="user-button">
+        <Link to="#" className="user-button">
           <img src={user} />
-        </button>
+        </Link>
       </div>
     </header>
   );

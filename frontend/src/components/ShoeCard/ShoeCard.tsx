@@ -30,9 +30,7 @@ const ShoeCard = ({
         <h2 className="card-price">{item.price}</h2>
       </div>
       <div className="card-buttons">
-        <button>
-          <Link to={`/shoes/${item.id}`}>Подробнее</Link>
-        </button>
+        <Link to={`/shoes/${item.id}`}>Подробнее</Link>
         <button onClick={() => addToCart(item)}>Добавить в корзину</button>
       </div>
       {role === 'admin' ? (

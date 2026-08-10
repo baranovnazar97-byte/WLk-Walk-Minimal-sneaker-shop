@@ -17,6 +17,11 @@ footer {
 
 .social-medias img {
   width: 30px;
+  transition: transform 0.15s ease;
+}
+
+.social-medias img:hover {
+  transform: scale(1.5);
 }
 
 .footer-links {
@@ -29,5 +34,10 @@ footer {
     text-decoration: none;
     color: black;
     cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: #648ef8;
   }
 }

@@ -1,6 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import e from 'express';
+import { Pool } from 'pg';
 import shoesMockData, { Shoe } from './database';
 dotenv.config();
 
@@ -8,12 +9,33 @@ const app = e();
 
 const PORT = process.env.PORT || 5000;
 
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
+});
+
+export const query = (text: string, params?: any[]) => pool.query(text, params);
+
 app.use(cors());
 
 app.use(e.json());
 
-app.get('/api/shoes', (req, res) => {
-  res.status(200).json(shoesMockData);
+app.get('/api/shoes', async (req, res) => {
+  try {
+    const result = await query(
+      'SELECT id, brand, title, price, category, sizes, imageurl as "imageUrl" from shoes ORDER BY id DESC',
+    );
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Ошибка:', error);
+    res
+      .status(500)
+      .send(error instanceof Error ? error.message : 'Unknown error');
+  }
 });
 
 app.get('/api/shoes/:id', (req, res) => {

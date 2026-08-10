@@ -1,9 +1,16 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .main-page {
   width: 1126px;
   max-width: 100%;
   padding: 24px;
   margin: 0 auto;
   animation: storeFadeIn 5s ease forwards;
+  flex-grow: 1;
 }
 
 .card-grid {
