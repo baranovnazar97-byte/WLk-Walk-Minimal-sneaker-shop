@@ -12,6 +12,7 @@ import useFetch from '../../hooks/useFetch';
 import { Shoe } from '../../types/cart';
 import Cart from '../Cart/Cart';
 import CatalogControls from '../CatalogControls/CatalogControls';
+import Footer from '../Footer/Footer';
 import SplashScreen from '../SplashScreen/SplashScreen';
 
 let notificationTimer: number;
@@ -66,12 +67,9 @@ function MainPage() {
     }, 3000);
   };
 
-  const {
-    data: shoes = [],
-    loading,
-    error,
-    refetch,
-  } = useFetch<Shoe[]>('http://127.0.0.1:4000/api/shoes');
+  const { data: shoes = [], refetch } = useFetch<Shoe[]>(
+    'http://127.0.0.1:4000/api/shoes',
+  );
 
   const postData = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -263,6 +261,8 @@ function MainPage() {
           <div className="notification">{notification}</div>
         ) : null}
       </div>
+
+      <Footer />
     </>
   );
 }

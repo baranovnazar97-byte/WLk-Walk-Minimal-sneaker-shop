@@ -1,0 +1,33 @@
+footer {
+  margin-top: 113px;
+  background-color: #edf6ff;
+}
+
+.footer-logo {
+  width: 120px;
+  height: 60px;
+}
+
+.social-medias {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-medias img {
+  width: 30px;
+}
+
+.footer-links {
+  margin: 15px 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }
+}
