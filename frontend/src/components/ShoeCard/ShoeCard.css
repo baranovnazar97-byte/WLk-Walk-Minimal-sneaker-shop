@@ -1,3 +1,138 @@
 .card {
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.card-img-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-img {
+  width: 85%;
+  height: auto;
+  object-fit: contain;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.product-info h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.product-info h2:nth-child(2) {
+  font-size: 14px;
+  color: #888888;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+.product-info h3 {
+  margin: 0;
+  font-size: 13px;
+  color: #b5b5b5;
+  font-weight: 400;
+  text-transform: lowercase;
+}
+
+.product-info .card-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111111;
+  margin-top: 6px;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: auto;
+}
+
+.card-buttons button {
+  flex: 1;
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.card-buttons button:has(a) {
+  background-color: #f1f3f5;
+}
+
+.card-buttons button a {
+  color: #111111;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-buttons button:has(a):hover {
+  background-color: #e2e6ea;
+}
+
+.card-buttons button:not(:has(a)) {
+  background-color: #648ef8;
+  color: white;
+}
+
+.card-buttons button:not(:has(a)):hover {
+  background-color: #4a73df;
+}
+.card > button {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #e2e6ea;
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.card > button:nth-of-type(1):hover {
+  background-color: #fff5f5;
+  border-color: #ffc9c9;
+  color: #fa5252;
+}
+
+.card > button:nth-of-type(2):hover {
+  background-color: #f3f0ff;
+  border-color: #d0bfff;
+  color: #7950f2;
 }

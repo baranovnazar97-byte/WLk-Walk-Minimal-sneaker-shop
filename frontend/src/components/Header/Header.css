@@ -1,0 +1,60 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-links {
+  display: flex;
+  gap: 40px;
+
+  a {
+    text-decoration: none;
+    color: #111111;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: #648ef8;
+  }
+}
+
+.slogan {
+  font-weight: 200;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.user-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-input {
+  height: 32px;
+  width: 263px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.search-input::placeholder {
+  font-style: italic;
+  color: rgba(210, 210, 210, 54%);
+}
+
+.user-button {
+  cursor: pointer;
+  background-color: #0000;
+  border: none;
+  transition: transform 0.3s;
+}
+.user-button:hover {
+  transform: scale(1.1);
+}

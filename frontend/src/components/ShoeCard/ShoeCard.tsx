@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './ShoeCard.css';
 
-import { Shoe } from '../MainPage/MainPage';
+import { Shoe } from '../../types/cart';
 
 interface ShoeProp {
   item: Shoe;
@@ -20,12 +20,21 @@ const ShoeCard = ({
 }: ShoeProp) => {
   return (
     <div className="card">
-      <h1>{item.title}</h1>
-      <h2>{item.brand}</h2>
-      <h3>{item.category}</h3>
-      <h2>{item.price}</h2>
-      <Link to={`/shoes/${item.id}`}>Подробнее</Link>
-      <button onClick={() => addToCart(item)}>Добавить в корзину</button>
+      <div className="card-img-wrapper">
+        <img className="card-img" src={item.imageUrl} alt="image" />
+      </div>
+      <div className="product-info">
+        <h2>{item.title}</h2>
+        <h2>{item.brand}</h2>
+        <h3>{item.category}</h3>
+        <h2 className="card-price">{item.price}</h2>
+      </div>
+      <div className="card-buttons">
+        <button>
+          <Link to={`/shoes/${item.id}`}>Подробнее</Link>
+        </button>
+        <button onClick={() => addToCart(item)}>Добавить в корзину</button>
+      </div>
       {role === 'admin' ? (
         <button onClick={() => handleDelete(item.id)}>Удалить</button>
       ) : null}

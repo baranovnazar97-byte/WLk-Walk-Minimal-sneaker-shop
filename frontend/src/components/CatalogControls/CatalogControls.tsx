@@ -1,3 +1,5 @@
+import './CatalogControls.css';
+
 interface ICatalogProps {
   filter: string;
   changeFilter: (filter: string) => void;
@@ -11,11 +13,23 @@ const CatalogControls = ({
 }: ICatalogProps) => {
   return (
     <>
-      <h2>{filter}</h2>
-      <div>
-        <button onClick={() => changeFilter('Все')}>Все</button>
+      <div className="filter-buttons">
+        <button
+          className={
+            filter === 'All' ? 'filter-button active' : 'filter-button'
+          }
+          onClick={() => changeFilter('all')}
+        >
+          all
+        </button>
         {listCategories.map((item, i) => (
-          <button key={i} onClick={() => changeFilter(item)}>
+          <button
+            key={i}
+            className={
+              filter === item ? 'filter-button active' : 'filter-button'
+            }
+            onClick={() => changeFilter(item)}
+          >
             {item}
           </button>
         ))}

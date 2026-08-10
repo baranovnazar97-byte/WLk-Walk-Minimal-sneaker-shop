@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../App.css';
 import useCart from '../../hooks/useCart';
+import Header from '../Header/Header';
 import PatchForm from '../PatchForm/PatchForm';
 import PostForm from '../PostForm/PostForm';
 import ShoeCard from '../ShoeCard/ShoeCard';
@@ -10,10 +11,11 @@ import useFetch from '../../hooks/useFetch';
 import { Shoe } from '../../types/cart';
 import Cart from '../Cart/Cart';
 import CatalogControls from '../CatalogControls/CatalogControls';
+import SplashScreen from '../SplashScreen/SplashScreen';
 
 function MainPage() {
   let notificationTimer: number;
-  const [filter, setFilter] = useState('Все');
+  const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
   const { cart, addToCart, deleteFromCart, cartTotal } = useCart();
   const [role, setRole] = useState('user');
@@ -21,6 +23,15 @@ function MainPage() {
   const [defForm, setDefForm] = useState<Shoe | undefined>();
   const [shoeSelect, setShoeSelect] = useState<number>();
   const [notification, setNotification] = useState('');
+  const [splashScreen, setSplashScreen] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSplashScreen(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const editMode = async (id: number) => {
     try {
@@ -172,63 +183,60 @@ function MainPage() {
 
   return (
     <>
-      <select name="role" id="role" onChange={SelectedRole}>
-        <option value="user">Войти как пользователь</option>
-        <option value="admin">Войти как Админ</option>
-      </select>
-      {role === 'admin' &&
-        (mode && shoeSelect ? (
-          <PatchForm
-            patchData={patchData}
-            shoeSelect={shoeSelect}
-            defForm={defForm}
-          />
-        ) : (
-          <PostForm postData={postData} />
-        ))}
-      <CatalogControls
-        filter={filter}
-        changeFilter={changeFilter}
-        listCategories={listCategories}
-      />
-      <h2>Товаров всего: {shoes.length}</h2>
-      <label htmlFor="search">Поиск по товару</label>
-      <input
-        type="text"
-        name="search"
-        placeholder="Название..."
-        onChange={editSearch}
-      />
-      <div className="card-grid">
-        {shoes
-          .filter((item) => filter === 'Все' || item.category === filter)
-          .filter(
-            (item) =>
-              item.title.toLowerCase().includes(search) ||
-              item.brand.toLowerCase().includes(search),
-          )
-          .map((item) => (
-            <ShoeCard
-              key={item.id}
-              item={item}
-              handleDelete={handleDelete}
-              addToCart={addToCart}
-              role={role}
-              editMode={editMode}
+      {splashScreen && <SplashScreen />}
+      <Header editSearch={editSearch} />
+      <div className="main-page">
+        <select name="role" id="role" onChange={SelectedRole}>
+          <option value="user">Войти как пользователь</option>
+          <option value="admin">Войти как Админ</option>
+        </select>
+        {role === 'admin' &&
+          (mode && shoeSelect ? (
+            <PatchForm
+              patchData={patchData}
+              shoeSelect={shoeSelect}
+              defForm={defForm}
             />
+          ) : (
+            <PostForm postData={postData} />
           ))}
-      </div>
-      {role === 'admin' ? null : (
-        <Cart
-          cartTotal={cartTotal}
-          cart={cart}
-          deleteFromCart={deleteFromCart}
-          addToCart={addToCart}
+        <CatalogControls
+          filter={filter}
+          changeFilter={changeFilter}
+          listCategories={listCategories}
         />
-      )}
-      {notification !== '' ? (
-        <div className="notification">{notification}</div>
-      ) : null}
+
+        <div className="card-grid">
+          {shoes
+            .filter((item) => filter === 'all' || item.category === filter)
+            .filter(
+              (item) =>
+                item.title.toLowerCase().includes(search) ||
+                item.brand.toLowerCase().includes(search),
+            )
+            .map((item) => (
+              <ShoeCard
+                key={item.id}
+                item={item}
+                handleDelete={handleDelete}
+                addToCart={addToCart}
+                role={role}
+                editMode={editMode}
+              />
+            ))}
+        </div>
+        {role === 'admin' ? null : (
+          <Cart
+            cartTotal={cartTotal}
+            cart={cart}
+            deleteFromCart={deleteFromCart}
+            addToCart={addToCart}
+          />
+        )}
+        {notification !== '' ? (
+          <div className="notification">{notification}</div>
+        ) : null}
+      </div>
     </>
   );
 }
