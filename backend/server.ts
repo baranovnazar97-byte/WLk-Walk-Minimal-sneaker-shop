@@ -38,46 +38,67 @@ app.get('/api/shoes', async (req, res) => {
   }
 });
 
-app.get('/api/shoes/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+app.get('/api/shoes/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  res.status(200).json(shoesMockData.find((item) => item.id === id));
+    const queryText = 'SELECT * FROM shoes WHERE id = $1';
+    const result = await query(queryText, [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Кроссовки не найдены' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error instanceof Error ? error : 'Неизвестная ошибка');
+  }
 });
 
-app.post('/api/shoes', (req, res) => {
+app.post('/api/shoes', async (req, res) => {
   if (req.headers['role-user'] === 'user') {
     return res.status(403).send('Недостаточно прав');
   }
-  const { brand, title, price, category, sizes, imageUrl } = req.body as Shoe;
+  try {
+    const { brand, title, price, category, sizes, imageUrl } = req.body as Shoe;
 
-  const newShoe = {
-    id: Date.now(),
-    brand: brand,
-    title: title,
-    price: price,
-    category: category,
-    sizes: sizes,
-    imageUrl: imageUrl,
-  };
+    const queryText =
+      'INSERT INTO shoes (brand, title, price, category, sizes, imageurl) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+    const result = await query(queryText, [
+      brand,
+      title,
+      price,
+      category,
+      sizes,
+      imageUrl,
+    ]);
 
-  shoesMockData.push(newShoe);
-
-  res.status(200).json(newShoe);
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error instanceof Error ? error : 'Неизвестная ошибка');
+  }
 });
 
-app.delete('/api/shoes/:id', (req, res) => {
+app.delete('/api/shoes/:id', async (req, res) => {
   if (req.headers['role-user'] === 'user') {
     return res.status(403).send('Недостаточно прав');
   }
   const id = parseInt(req.params.id);
 
-  shoesMockData.splice(
-    0,
-    shoesMockData.length,
-    ...shoesMockData.filter((item) => item.id !== id),
-  );
+  try {
+    const queryText = 'DELETE FROM shoes WHERE id = $1 RETURNING *';
+    const result = await query(queryText, [id]);
 
-  res.status(200).json(shoesMockData);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Кроссовки не найдены' });
+    }
+
+    res
+      .status(200)
+      .json({ message: 'Успешно удалено', deletedShoe: result.rows[0] });
+  } catch (error) {
+    console.error(error instanceof Error ? error : 'Неизвестная ошибка');
+  }
 });
 
 app.patch('/api/shoes/:id', (req, res) => {
