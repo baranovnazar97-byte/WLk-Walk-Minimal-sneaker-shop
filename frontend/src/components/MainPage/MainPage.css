@@ -1,8 +1,6 @@
 .main-page {
   max-width: 1400px;
-  margin: 0 auto;
   padding: 24px;
-
   animation: storeFadeIn 5s ease forwards;
 }
 
@@ -21,10 +19,28 @@
 }
 
 .notification {
-  padding: 20px;
-  background-color: antiquewhite;
   position: fixed;
-  left: 0;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  border-radius: 30px;
+
+  border: 1px solid #648ef8;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.02);
+
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  animation: slideDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @media (max-width: 1200px) {
@@ -51,6 +67,17 @@
   }
 
   85% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    top: -60px;
+    opacity: 0;
+  }
+  100% {
+    top: 24px;
     opacity: 1;
   }
 }

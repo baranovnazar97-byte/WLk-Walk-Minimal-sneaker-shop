@@ -17,7 +17,7 @@ const shoesMockData = [
     category: 'sneakers',
     sizes: 40,
     imageUrl:
-      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://static.street-beat.ru/upload/resize_cache/iblock/288/666_666_1/0tzacc6pyv6g7jfdgvouqbcl2bfvzp9h.jpg',
   },
   {
     id: 2,
@@ -26,7 +26,8 @@ const shoesMockData = [
     price: 9500,
     category: 'canvas shoes',
     sizes: 35,
-    imageUrl: 'https://example.com',
+    imageUrl:
+      'https://static.insales-cdn.com/r/zcoD6jUTMog/rs:fit:1000:0:1/q:100/plain/images/products/1/3288/824863960/Adidas_Stan_Smit_Green_1.jpg@jpg',
   },
   {
     id: 3,

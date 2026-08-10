@@ -17,17 +17,19 @@ const useCart = () => {
     0,
   );
 
-  const addToCart = (item: Shoe) => {
+  const addToCart = (item: Shoe, onSuccess?: () => void) => {
     setCart((prev) => {
       const isItemInCart = prev.find((cartItem) => cartItem.id === item.id);
 
       if (isItemInCart) {
+        if (onSuccess) onSuccess();
         return prev.map((cartItem) =>
           cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem,
         );
       } else {
+        if (onSuccess) onSuccess();
         return [...prev, { ...item, quantity: 1 }];
       }
     });

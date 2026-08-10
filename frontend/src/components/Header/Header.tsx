@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import user from '../../../img/account_circle.svg';
 import logo from '../../../img/logo.svg';
 import cart from '../../../img/shopping_cart.svg';
@@ -17,7 +18,9 @@ const Header = ({ editSearch }: IHeaderProps) => {
         <a href="#">our team</a>
       </div>
       <div>
-        <img src={logo} alt="logo" className="logo-img" />
+        <Link to="/">
+          <img src={logo} alt="logo" className="logo-img" />
+        </Link>
         <p className="slogan">Easy to pronounce, easy to wear</p>
       </div>
       <div className="user-buttons">
@@ -28,9 +31,9 @@ const Header = ({ editSearch }: IHeaderProps) => {
           placeholder="Поиск по названию..."
           onChange={editSearch}
         />
-        <button className="user-button">
+        <Link to="/cart" className="user-button">
           <img src={cart} />
-        </button>
+        </Link>
         <button className="user-button">
           <img src={user} />
         </button>

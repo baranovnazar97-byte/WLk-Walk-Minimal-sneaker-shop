@@ -7,7 +7,7 @@ function App() {
   return (
     <StrictMode>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/*" element={<MainPage />} />
         <Route path="/shoes/:id" element={<DetailedCard />} />
       </Routes>
     </StrictMode>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import '../../App.css';
 import useCart from '../../hooks/useCart';
 import Header from '../Header/Header';
@@ -13,8 +14,9 @@ import Cart from '../Cart/Cart';
 import CatalogControls from '../CatalogControls/CatalogControls';
 import SplashScreen from '../SplashScreen/SplashScreen';
 
+let notificationTimer: number;
+
 function MainPage() {
-  let notificationTimer: number;
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
   const { cart, addToCart, deleteFromCart, cartTotal } = useCart();
@@ -190,6 +192,7 @@ function MainPage() {
           <option value="user">Войти как пользователь</option>
           <option value="admin">Войти как Админ</option>
         </select>
+
         {role === 'admin' &&
           (mode && shoeSelect ? (
             <PatchForm
@@ -200,39 +203,62 @@ function MainPage() {
           ) : (
             <PostForm postData={postData} />
           ))}
-        <CatalogControls
-          filter={filter}
-          changeFilter={changeFilter}
-          listCategories={listCategories}
-        />
 
-        <div className="card-grid">
-          {shoes
-            .filter((item) => filter === 'all' || item.category === filter)
-            .filter(
-              (item) =>
-                item.title.toLowerCase().includes(search) ||
-                item.brand.toLowerCase().includes(search),
-            )
-            .map((item) => (
-              <ShoeCard
-                key={item.id}
-                item={item}
-                handleDelete={handleDelete}
-                addToCart={addToCart}
-                role={role}
-                editMode={editMode}
-              />
-            ))}
-        </div>
-        {role === 'admin' ? null : (
-          <Cart
-            cartTotal={cartTotal}
-            cart={cart}
-            deleteFromCart={deleteFromCart}
-            addToCart={addToCart}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <CatalogControls
+                  filter={filter}
+                  changeFilter={changeFilter}
+                  listCategories={listCategories}
+                />
+
+                <div className="card-grid">
+                  {shoes
+                    .filter(
+                      (item) => filter === 'all' || item.category === filter,
+                    )
+                    .filter(
+                      (item) =>
+                        item.title.toLowerCase().includes(search) ||
+                        item.brand.toLowerCase().includes(search),
+                    )
+                    .map((item) => (
+                      <ShoeCard
+                        key={item.id}
+                        item={item}
+                        handleDelete={handleDelete}
+                        addToCart={(item) =>
+                          addToCart(item, () =>
+                            callNotification('Товар добавлен в корзину'),
+                          )
+                        }
+                        role={role}
+                        editMode={editMode}
+                      />
+                    ))}
+                </div>
+              </>
+            }
           />
-        )}
+
+          <Route
+            path="/cart"
+            element={
+              role === 'admin' ? null : (
+                <Cart
+                  cartTotal={cartTotal}
+                  cart={cart}
+                  deleteFromCart={deleteFromCart}
+                  addToCart={addToCart}
+                />
+              )
+            }
+          />
+        </Routes>
+
         {notification !== '' ? (
           <div className="notification">{notification}</div>
         ) : null}

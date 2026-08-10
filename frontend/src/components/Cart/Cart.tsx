@@ -1,6 +1,6 @@
 import { CartItem, Shoe } from '../../types/cart';
 import CartCard from '../CartCard/CartCard';
-
+import './Cart.css';
 interface ICart {
   cartTotal: number;
   cart: CartItem[];
@@ -10,8 +10,8 @@ interface ICart {
 
 const Cart = ({ cartTotal, cart, deleteFromCart, addToCart }: ICart) => {
   return (
-    <>
-      <h2>Корзина. Общая сумма - {cartTotal}</h2>
+    <div className="cart">
+      <h2>Общая сумма - {cartTotal}</h2>
       <div className="card-grid cart">
         {cart.length <= 0
           ? null
@@ -24,7 +24,7 @@ const Cart = ({ cartTotal, cart, deleteFromCart, addToCart }: ICart) => {
               />
             ))}
       </div>
-    </>
+    </div>
   );
 };
 

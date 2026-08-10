@@ -10,7 +10,6 @@
 .card-img-wrapper {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #f8f9fa;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
