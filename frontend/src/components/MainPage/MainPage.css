@@ -9,7 +9,7 @@
   max-width: 100%;
   padding: 24px;
   margin: 0 auto;
-  animation: storeFadeIn 5s ease forwards;
+  animation: storeFadeIn 1.9s ease forwards;
   flex-grow: 1;
 }
 

@@ -56,9 +56,6 @@ app.get('/api/shoes/:id', async (req, res) => {
 });
 
 app.post('/api/shoes', async (req, res) => {
-  if (req.headers['role-user'] === 'user') {
-    return res.status(403).send('Недостаточно прав');
-  }
   try {
     const { brand, title, price, category, sizes, imageUrl } = req.body as Shoe;
 
@@ -80,9 +77,6 @@ app.post('/api/shoes', async (req, res) => {
 });
 
 app.delete('/api/shoes/:id', async (req, res) => {
-  if (req.headers['role-user'] === 'user') {
-    return res.status(403).send('Недостаточно прав');
-  }
   const id = parseInt(req.params.id);
 
   try {

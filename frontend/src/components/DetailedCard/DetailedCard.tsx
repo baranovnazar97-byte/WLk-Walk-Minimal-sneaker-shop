@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Header from '../Header/Header/Header';
 import './DetailedCard.css';
 
 interface ProductData {
@@ -33,7 +32,6 @@ const DetailedCard = () => {
         'Загрузка...'
       ) : (
         <>
-          <Header />
           <div className="detailed-card">
             <div>
               <img src={card.imageUrl} alt="img" />
@@ -41,7 +39,7 @@ const DetailedCard = () => {
             <div>{card.title}</div>
             <div>
               {card.price}
-              <button>Добавить в корзину</button>ё
+              <button>Добавить в корзину</button>
               <button>Заказать сейчас</button>
               <p>14 дней на возврат</p>
               <p>Доступна примерка</p>

@@ -8,21 +8,12 @@ import { Shoe } from '../../types/cart';
 
 interface ShoeProp {
   item: Shoe;
-  handleDelete: (id: number) => void;
   addToCart: (item: Shoe) => void;
-  role: string;
-  editMode: (id: number) => void;
 }
 
-const ShoeCard = ({
-  item,
-  handleDelete,
-  addToCart,
-  role,
-  editMode,
-}: ShoeProp) => {
+const ShoeCard = ({ item, addToCart }: ShoeProp) => {
   const [imageError, setImageError] = useState(false);
-  console.log(item.category);
+
   return (
     <div className="card">
       <div className="card-img-wrapper">
@@ -46,15 +37,9 @@ const ShoeCard = ({
         </div>
       </div>
       <div className="card-buttons">
-        <Link to={`/shoes/${item.id}`}>Подробнее</Link>
-        <button onClick={() => addToCart(item)}>Добавить в корзину</button>
+        <Link to={`/shoes/${item.id}`}>Read more</Link>
+        <button onClick={() => addToCart(item)}>Add to cart</button>
       </div>
-      {role === 'admin' ? (
-        <button onClick={() => handleDelete(item.id)}>Удалить</button>
-      ) : null}
-      {role === 'admin' ? (
-        <button onClick={() => editMode(item.id)}>Редактировать</button>
-      ) : null}
     </div>
   );
 };

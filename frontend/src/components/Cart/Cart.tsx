@@ -1,6 +1,8 @@
+import { useOutletContext } from 'react-router-dom';
 import { CartItem, Shoe } from '../../types/cart';
 import CartCard from '../CartCard/CartCard';
 import './Cart.css';
+
 interface ICart {
   cartTotal: number;
   cart: CartItem[];
@@ -8,7 +10,9 @@ interface ICart {
   addToCart: (item: Shoe) => void;
 }
 
-const Cart = ({ cartTotal, cart, deleteFromCart, addToCart }: ICart) => {
+const Cart = () => {
+  const { cart, deleteFromCart, addToCart, cartTotal } =
+    useOutletContext<ICart>();
   return (
     <div className="cart">
       <h2>Общая сумма - {cartTotal}</h2>

@@ -1,14 +1,17 @@
-import { Link } from 'react-router-dom';
-import user from '../../../../img/account_circle.svg';
-import LogoIcon from '../../../../img/logo.svg?react';
-import cart from '../../../../img/shopping_cart.svg';
-import '../Header.css';
+import { Link, useLocation } from 'react-router-dom';
+import user from '../../../img/account_circle.svg';
+import LogoIcon from '../../../img/logo.svg?react';
+import cart from '../../../img/shopping_cart.svg';
+import './Header.css';
 
 interface IHeaderProps {
-  editSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  editSearch?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Header = ({ editSearch }: IHeaderProps) => {
+  const location = useLocation();
+
+  const isProductPage = location.pathname.startsWith('/shoes/');
   return (
     <header>
       <div className="header-links">
@@ -26,13 +29,15 @@ const Header = ({ editSearch }: IHeaderProps) => {
       </div>
 
       <div className="user-buttons">
-        <input
-          className="search-input"
-          type="text"
-          name="search"
-          placeholder="Поиск по названию..."
-          onChange={editSearch}
-        />
+        {!isProductPage ? (
+          <input
+            className="search-input"
+            type="text"
+            name="search"
+            placeholder="Поиск по названию..."
+            onChange={editSearch}
+          />
+        ) : null}
 
         <Link to="/cart" className="user-button">
           <img src={cart} />
