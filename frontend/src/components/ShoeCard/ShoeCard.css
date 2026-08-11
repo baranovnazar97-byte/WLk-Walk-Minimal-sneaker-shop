@@ -4,12 +4,20 @@
   background-color: transparent;
   position: relative;
   transition: transform 0.15s ease;
+  border-radius: 12px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 10px 30px rgba(0, 0, 0, 0.04);
+  padding: 16px;
+}
+
+.card:hover {
+  transform: scale(1.03);
 }
 
 .card-img-wrapper {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 12px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -23,45 +31,87 @@
   object-fit: contain;
 }
 
-.card:hover {
-  transform: scale(1.03);
+.not-found-img {
+  height: 75px;
 }
 
 .product-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+  width: 100%;
   margin-bottom: 16px;
 }
 
-.product-info h2 {
+.product-descr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.product-descr h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
   color: #111111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.product-info h2:nth-child(2) {
+.card-brand {
   font-size: 14px;
   color: #888888;
   font-weight: 500;
   text-transform: lowercase;
+  text-align: left;
 }
 
-.product-info h3 {
-  margin: 0;
+.card-category {
   font-size: 13px;
   color: #b5b5b5;
   font-weight: 400;
   text-transform: lowercase;
+  text-align: left;
 }
 
-.product-info .card-price {
+.product-descr .card-price {
+  margin: 0;
   font-size: 20px;
   font-weight: 700;
   color: #111111;
   margin-top: 6px;
+  text-align: left;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.product-rating img {
+  width: 16px;
+  height: 16px;
+}
+
+.product-rating p {
+  font-family: var(--heading);
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4b5563;
+  line-height: 1;
 }
 
 .card-buttons {
@@ -128,42 +178,4 @@
 
 .card-buttons button:not(:has(a)):hover {
   background-color: #4a73df;
-}
-.card > button {
-  width: 100%;
-  background-color: transparent;
-  border: 1px solid #e2e6ea;
-  border-radius: 6px;
-  padding: 6px 0;
-  font-size: 13px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.2s ease;
-}
-
-.card > button:nth-of-type(1):hover {
-  background-color: #fff5f5;
-  border-color: #ffc9c9;
-  color: #fa5252;
-}
-
-.card > button:nth-of-type(2):hover {
-  background-color: #f3f0ff;
-  border-color: #d0bfff;
-  color: #7950f2;
-}
-
-.not-found-img {
-  height: 75px;
-}
-
-.product-rating {
-  margin-top: 5px;
-  display: flex;
-  align-items: center;
-
-  p {
-    font-weight: 500;
-    font-family: var(--heading);
-  }
 }
