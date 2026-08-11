@@ -26,7 +26,7 @@ app.use(e.json());
 app.get('/api/shoes', async (req, res) => {
   try {
     const result = await query(
-      'SELECT id, brand, title, price, category, sizes, imageurl as "imageUrl" from shoes ORDER BY id DESC',
+      'SELECT id, brand, title, price, category, sizes, rating, imageurl as "imageUrl" from shoes ORDER BY id DESC',
     );
 
     res.status(200).json(result.rows);

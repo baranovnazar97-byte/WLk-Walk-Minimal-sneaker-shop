@@ -152,3 +152,18 @@
   border-color: #d0bfff;
   color: #7950f2;
 }
+
+.not-found-img {
+  height: 75px;
+}
+
+.product-rating {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+
+  p {
+    font-weight: 500;
+    font-family: var(--heading);
+  }
+}

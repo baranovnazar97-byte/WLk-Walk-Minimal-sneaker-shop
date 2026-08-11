@@ -6,6 +6,7 @@ export interface Shoe {
   category: string;
   price: number;
   sizes: number;
+  rating: number;
 }
 
 export interface CartItem extends Shoe {

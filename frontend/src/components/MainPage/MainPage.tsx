@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import '../../App.css';
 import useCart from '../../hooks/useCart';
-import Header from '../Header/Header';
+import Header from '../Header/HeaderWithSearch/Header';
 import PatchForm from '../PatchForm/PatchForm';
 import PostForm from '../PostForm/PostForm';
 import ShoeCard from '../ShoeCard/ShoeCard';
+import SplashScreen from '../SplashScreen/SplashScreen';
 import './MainPage.css';
 
 import useFetch from '../../hooks/useFetch';
@@ -13,7 +14,6 @@ import { Shoe } from '../../types/cart';
 import Cart from '../Cart/Cart';
 import CatalogControls from '../CatalogControls/CatalogControls';
 import Footer from '../Footer/Footer';
-import SplashScreen from '../SplashScreen/SplashScreen';
 
 let notificationTimer: number;
 
@@ -26,15 +26,20 @@ function MainPage() {
   const [defForm, setDefForm] = useState<Shoe | undefined>();
   const [shoeSelect, setShoeSelect] = useState<number>();
   const [notification, setNotification] = useState('');
-  const [splashScreen, setSplashScreen] = useState(true);
+  const [splashScreen, setSplashScreen] = useState(() => {
+    return sessionStorage.getItem('splashShown') !== 'true';
+  });
 
   useEffect(() => {
+    if (!splashScreen) return;
+
     const timer = setTimeout(() => {
       setSplashScreen(false);
+      sessionStorage.setItem('splashShown', 'true');
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [splashScreen]);
 
   const editMode = async (id: number) => {
     try {

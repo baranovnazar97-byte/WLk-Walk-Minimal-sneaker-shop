@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Header from '../Header/Header/Header';
 import './DetailedCard.css';
 
 interface ProductData {
@@ -32,15 +33,18 @@ const DetailedCard = () => {
         'Загрузка...'
       ) : (
         <>
-          <div className="product-container">
+          <Header />
+          <div className="detailed-card">
             <div>
-              <img src={card.imageUrl} />
+              <img src={card.imageUrl} alt="img" />
             </div>
-            <div className="product-info">
-              <h1>{card.title}</h1>
-              <h3>{card.brand}</h3>
-              <h3>{card.sizes}</h3>
-              <h2>{card.price}</h2>
+            <div>{card.title}</div>
+            <div>
+              {card.price}
+              <button>Добавить в корзину</button>ё
+              <button>Заказать сейчас</button>
+              <p>14 дней на возврат</p>
+              <p>Доступна примерка</p>
             </div>
           </div>
         </>
