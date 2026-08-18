@@ -16,7 +16,7 @@ const CatalogControls = ({
       <div className="filter-buttons">
         <button
           className={
-            filter === 'All' ? 'filter-button active' : 'filter-button'
+            filter === 'all' ? 'filter-button active' : 'filter-button '
           }
           onClick={() => changeFilter('all')}
         >
