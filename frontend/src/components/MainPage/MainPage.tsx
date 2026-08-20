@@ -29,7 +29,7 @@ function MainPage() {
     const timer = setTimeout(() => {
       setSplashScreen(false);
       sessionStorage.setItem('splashShown', 'true');
-    }, 1800);
+    }, 1350);
 
     return () => clearTimeout(timer);
   }, [splashScreen]);
@@ -67,56 +67,60 @@ function MainPage() {
     <div className="page-container">
       {splashScreen && <SplashScreen />}
 
-      <Header editSearch={editSearch} />
+      {!splashScreen && (
+        <Header editSearch={editSearch} splashScreen={splashScreen} />
+      )}
+      {!splashScreen && (
+        <div className="main-page">
+          {isHomePage && (
+            <>
+              <CatalogControls
+                filter={filter}
+                changeFilter={changeFilter}
+                listCategories={listCategories}
+              />
 
-      <div className="main-page">
-        {isHomePage && (
-          <>
-            <CatalogControls
-              filter={filter}
-              changeFilter={changeFilter}
-              listCategories={listCategories}
-            />
+              <div className="card-grid">
+                {shoes
+                  .filter(
+                    (item) => filter === 'all' || item.category === filter,
+                  )
+                  .filter(
+                    (item) =>
+                      item.title.toLowerCase().includes(search) ||
+                      item.brand.toLowerCase().includes(search),
+                  )
+                  .map((item) => (
+                    <ShoeCard
+                      key={item.id}
+                      item={item}
+                      addToCart={(item) =>
+                        addToCart(item, () =>
+                          callNotification('Item added to cart'),
+                        )
+                      }
+                    />
+                  ))}
+              </div>
+            </>
+          )}
 
-            <div className="card-grid">
-              {shoes
-                .filter((item) => filter === 'all' || item.category === filter)
-                .filter(
-                  (item) =>
-                    item.title.toLowerCase().includes(search) ||
-                    item.brand.toLowerCase().includes(search),
-                )
-                .map((item) => (
-                  <ShoeCard
-                    key={item.id}
-                    item={item}
-                    addToCart={(item) =>
-                      addToCart(item, () =>
-                        callNotification('Item added to cart'),
-                      )
-                    }
-                  />
-                ))}
-            </div>
-          </>
-        )}
+          <Outlet
+            context={{
+              cart,
+              addToCart,
+              deleteFromCart,
+              cartTotal,
+              callNotification,
+            }}
+          />
+        </div>
+      )}
+      {notification !== '' ? (
+        <div className="notification">{notification}</div>
+      ) : null}
 
-        <Outlet
-          context={{
-            cart,
-            addToCart,
-            deleteFromCart,
-            cartTotal,
-            callNotification,
-          }}
-        />
-
-        {notification !== '' ? (
-          <div className="notification">{notification}</div>
-        ) : null}
-      </div>
-
-      <Footer />
+      {!splashScreen && <Footer />}
     </div>
   );
 }

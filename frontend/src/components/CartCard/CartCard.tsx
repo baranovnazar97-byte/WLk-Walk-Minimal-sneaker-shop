@@ -13,7 +13,7 @@ const CartCard = ({ item, deleteFromCart, addToCart }: CartCardProps) => {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div className="card">
+    <div className="cart-card">
       <div className="card-img-wrapper">
         <img
           className={

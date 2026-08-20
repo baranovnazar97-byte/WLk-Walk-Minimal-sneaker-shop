@@ -9,7 +9,7 @@
   max-width: 100%;
   padding: 24px;
   margin: 0 auto;
-  animation: storeFadeIn 1.9s ease forwards;
+  animation: storeFadeIn 0.5s ease forwards;
   flex-grow: 1;
 }
 
@@ -32,7 +32,7 @@
   top: 24px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10000;
+  z-index: 1000;
 
   background-color: white;
   color: black;

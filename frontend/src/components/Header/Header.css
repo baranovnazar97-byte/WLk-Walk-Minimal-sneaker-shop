@@ -4,13 +4,14 @@ header {
   align-items: center;
   padding: 0 50px;
   position: fixed;
-  z-index: 1999;
+  z-index: 999;
   top: 0;
   left: 0;
   right: 0;
   width: auto;
   box-sizing: border-box;
   background-color: #f8f9fa;
+  animation: storeFadeIn 0.5s ease forwards;
   height: 200px;
 }
 
@@ -81,4 +82,14 @@ header {
 
 .user-button:hover {
   transform: scale(1.1);
+}
+
+@keyframes storeFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  85% {
+    opacity: 1;
+  }
 }
