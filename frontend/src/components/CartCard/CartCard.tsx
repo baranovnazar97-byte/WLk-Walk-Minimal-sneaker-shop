@@ -33,7 +33,7 @@ const CartCard = ({ item, deleteFromCart, addToCart }: CartCardProps) => {
       </div>
       <div className="cart-buttons">
         <button onClick={() => addToCart(item)}>+1</button>
-        <button onClick={() => deleteFromCart(item.id)}>
+        <button onClick={() => deleteFromCart(item.shoe_id)}>
           {item.quantity > 1 ? '-1' : 'Delete from cart'}
         </button>
       </div>

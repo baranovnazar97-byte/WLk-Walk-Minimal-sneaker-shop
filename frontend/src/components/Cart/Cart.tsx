@@ -21,7 +21,7 @@ const Cart = () => {
           ? null
           : cart.map((item) => (
               <CartCard
-                key={item.id}
+                key={item.shoe_id}
                 item={item}
                 deleteFromCart={deleteFromCart}
                 addToCart={addToCart}

@@ -92,7 +92,7 @@ function MainPage() {
                   )
                   .map((item) => (
                     <ShoeCard
-                      key={item.id}
+                      key={item.shoe_id}
                       item={item}
                       addToCart={(item) =>
                         addToCart(item, () =>

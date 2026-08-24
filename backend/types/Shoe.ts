@@ -1,9 +1,15 @@
+interface Sizes {
+  value: number;
+  stock: number;
+}
+
 export interface Shoe {
-  id: number;
-  imageUrl?: string;
+  shoe_id: number;
+  imageUrl: string;
   title: string;
   brand: string;
   category: string;
-  price: number;
-  sizes: number;
+  price: string;
+  sizes: Sizes[];
+  rating: number;
 }

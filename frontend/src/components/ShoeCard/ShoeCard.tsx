@@ -13,7 +13,6 @@ interface ShoeProp {
 
 const ShoeCard = ({ item, addToCart }: ShoeProp) => {
   const [imageError, setImageError] = useState(false);
-
   return (
     <div className="card">
       <div className="card-img-wrapper">
@@ -42,8 +41,8 @@ const ShoeCard = ({ item, addToCart }: ShoeProp) => {
         </div>
       </div>
       <div className="card-buttons">
-        <Link to={`/shoes/${item.id}`}>Read more</Link>
-        <button onClick={() => addToCart(item)}>Add to cart</button>
+        <Link to={`/shoes/${item.shoe_id}`}>read more</Link>
+        <button onClick={() => addToCart(item)}>add to cart</button>
       </div>
     </div>
   );

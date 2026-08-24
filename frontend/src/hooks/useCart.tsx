@@ -13,18 +13,20 @@ const useCart = () => {
   }, [cart]);
 
   const cartTotal = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + Number(item.price) * item.quantity,
     0,
   );
 
   const addToCart = (item: Shoe, onSuccess?: () => void) => {
     setCart((prev) => {
-      const isItemInCart = prev.find((cartItem) => cartItem.id === item.id);
+      const isItemInCart = prev.find(
+        (cartItem) => cartItem.shoe_id === item.shoe_id,
+      );
 
       if (isItemInCart) {
         if (onSuccess) onSuccess();
         return prev.map((cartItem) =>
-          cartItem.id === item.id
+          cartItem.shoe_id === item.shoe_id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem,
         );
@@ -37,17 +39,17 @@ const useCart = () => {
 
   const deleteFromCart = (id: number) => {
     setCart((prev) => {
-      const deletingItem = prev.find((item) => item.id === id);
+      const deletingItem = prev.find((item) => item.shoe_id === id);
 
       if (deletingItem) {
         if (deletingItem.quantity > 1) {
           return prev.map((cartItem) =>
-            cartItem.id === id
+            cartItem.shoe_id === id
               ? { ...cartItem, quantity: cartItem.quantity - 1 }
               : cartItem,
           );
         } else {
-          return prev.filter((item) => item.id !== id);
+          return prev.filter((item) => item.shoe_id !== id);
         }
       }
 

@@ -1,0 +1,173 @@
+.detailed_card {
+  margin-top: 200px;
+  display: flex;
+}
+
+h1 {
+  text-align: start;
+}
+
+.detailed_img {
+  margin-right: 70px;
+  width: 100%;
+  max-width: 350px;
+  max-height: 460px;
+  object-fit: cover;
+}
+.detailed_card-rating {
+  display: flex;
+}
+
+.detailed_card-sizes {
+  margin-top: 50px;
+}
+
+.sizes_title {
+  text-align: start;
+}
+
+.sizes_flex {
+  display: flex;
+  gap: 15px;
+}
+
+.size {
+  margin-top: 20px;
+  background-color: #eaf4ff;
+  padding: 20px;
+  border-radius: 11px;
+}
+
+.characteristic-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.label {
+  color: #7f7f7f;
+  white-space: nowrap;
+}
+
+.line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0 12px;
+  min-width: 20px;
+}
+
+.value {
+  color: #000000;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.card_descr {
+  margin-top: 50px;
+}
+
+.container-order {
+  margin-left: auto;
+}
+
+.card_order {
+  box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.15);
+  background: #f8f9fa;
+  border-radius: 30px;
+  padding: 12px 24px;
+}
+
+.order_buttons {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  gap: 17px;
+
+  button {
+    border-radius: 5px;
+    padding: 9px 20px;
+    min-width: 200px;
+    border-style: none;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  button:nth-child(1) {
+    background-color: #648ef8;
+    color: #fff;
+  }
+
+  button:nth-child(2) {
+    background-color: #d1deff;
+    color: #648ef8;
+  }
+}
+
+.order_date {
+  margin-top: 8px;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 15px;
+  color: #000;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+.card_price {
+  font-weight: 700;
+  font-style: italic;
+  font-size: 20px;
+  color: #000;
+  text-align: start;
+}
+
+.flex-price {
+  display: flex;
+  gap: 13px;
+}
+
+.card_price-old {
+  text-decoration: line-through;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 15px;
+  color: #888;
+}
+
+.order-other {
+  margin-top: 26px;
+}
+
+.order-flex {
+  gap: 5px;
+  justify-content: center;
+  display: flex;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.separator-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #000;
+  border-radius: 100%;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.average-rating {
+  align-items: flex-start;
+  display: flex;
+  margin-right: 10px;
+}
