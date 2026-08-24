@@ -3,7 +3,7 @@
   display: flex;
 }
 
-h1 {
+.detailed-card-title {
   text-align: start;
 }
 
@@ -32,9 +32,8 @@ h1 {
 }
 
 .size {
-  margin-top: 20px;
   background-color: #eaf4ff;
-  padding: 20px;
+  padding: 30px 20px;
   border-radius: 11px;
 }
 
@@ -46,7 +45,7 @@ h1 {
   font-size: 16px;
 }
 
-.label {
+.detailed-card-label {
   color: #7f7f7f;
   white-space: nowrap;
 }
@@ -59,7 +58,7 @@ h1 {
   min-width: 20px;
 }
 
-.value {
+.detailed-card-value {
   color: #000000;
   font-weight: 500;
   white-space: nowrap;
@@ -81,7 +80,6 @@ h1 {
 }
 
 .order_buttons {
-  margin-top: 17px;
   display: flex;
   flex-direction: column;
 
@@ -110,7 +108,7 @@ h1 {
 }
 
 .order_date {
-  margin-top: 8px;
+  margin-top: 20px;
   font-weight: 400;
   font-style: italic;
   font-size: 15px;
@@ -132,6 +130,7 @@ h1 {
 .flex-price {
   display: flex;
   gap: 13px;
+  align-items: center;
 }
 
 .card_price-old {
@@ -140,16 +139,25 @@ h1 {
   font-style: italic;
   font-size: 15px;
   color: #888;
+  margin: 0;
 }
 
 .order-other {
   margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .order-flex {
-  gap: 5px;
-  justify-content: center;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  p {
+    margin: 0;
+  }
 }
 
 .rating-container {
@@ -167,7 +175,7 @@ h1 {
 }
 
 .average-rating {
-  align-items: flex-start;
+  align-items: center;
   display: flex;
   margin-right: 10px;
 }

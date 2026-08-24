@@ -24,8 +24,6 @@ const DetailedCard = () => {
   const { id } = useParams<{ id: string }>();
   const [card, setCard] = useState<ProductData | null>();
 
-  console.log(card?.sizes);
-
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(`http://127.0.0.1:4000/api/shoes/${id}`);
@@ -46,7 +44,7 @@ const DetailedCard = () => {
         <div className="detailed_card">
           <img className="detailed_img" src={card.imageUrl} alt="card-img" />
           <div>
-            <h1>{card.title}</h1>
+            <h1 className="detailed-card-title">{card.title}</h1>
             <div className="detailed_card-rating">
               <div className="rating-container">
                 <div className="average-rating">
@@ -62,28 +60,30 @@ const DetailedCard = () => {
               <div className="sizes_flex">
                 {card.sizes.map((item) =>
                   item.stock > 0 ? (
-                    <div className="size">{item.value}</div>
+                    <div key={item.value} className="size">
+                      {item.value}
+                    </div>
                   ) : null,
                 )}
               </div>
             </div>
             <div className="card_descr">
               <div className="characteristic-row">
-                <span className="label">composition</span>
+                <span className="detailed-card-label">composition</span>
                 <span className="line"></span>
-                <span className="value">genuine leather</span>
+                <span className="detailed-card-value">genuine leather</span>
               </div>
 
               <div className="characteristic-row">
-                <span className="label">model in the photo</span>
+                <span className="detailed-card-label">model in the photo</span>
                 <span className="line"></span>
-                <span className="value">black</span>
+                <span className="detailed-card-value">black</span>
               </div>
 
               <div className="characteristic-row">
-                <span className="label">size in the photo</span>
+                <span className="detailed-card-label">size in the photo</span>
                 <span className="line"></span>
-                <span className="value">40</span>
+                <span className="detailed-card-value">40</span>
               </div>
             </div>
           </div>

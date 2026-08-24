@@ -6,6 +6,8 @@ footer {
 .footer-logo {
   width: 120px;
   height: 60px;
+  display: block;
+  margin: 0 auto;
 }
 
 .social-medias {

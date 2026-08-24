@@ -14,7 +14,7 @@ interface ShoeProp {
 const ShoeCard = ({ item, addToCart }: ShoeProp) => {
   const [imageError, setImageError] = useState(false);
   return (
-    <div className="card">
+    <div className="shoe-card">
       <div className="card-img-wrapper">
         <img
           className={

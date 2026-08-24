@@ -1,4 +1,4 @@
-.card {
+.shoe-card {
   display: flex;
   flex-direction: column;
   background-color: transparent;
@@ -11,7 +11,7 @@
   padding: 16px;
 }
 
-.card:hover {
+.shoe-card:hover {
   transform: scale(1.03);
 }
 
