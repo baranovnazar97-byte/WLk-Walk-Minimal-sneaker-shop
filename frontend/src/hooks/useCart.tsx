@@ -17,6 +17,8 @@ const useCart = () => {
     0,
   );
 
+  const cartTotalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   const addToCart = (item: Shoe, onSuccess?: () => void) => {
     setCart((prev) => {
       const isItemInCart = prev.find(
@@ -62,6 +64,7 @@ const useCart = () => {
     addToCart,
     deleteFromCart,
     cartTotal,
+    cartTotalItems,
   };
 };
 

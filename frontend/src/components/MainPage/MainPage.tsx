@@ -17,7 +17,8 @@ let notificationTimer: number;
 function MainPage() {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
-  const { cart, addToCart, deleteFromCart, cartTotal } = useCart();
+  const { cart, addToCart, deleteFromCart, cartTotal, cartTotalItems } =
+    useCart();
   const [notification, setNotification] = useState('');
   const [splashScreen, setSplashScreen] = useState(() => {
     return sessionStorage.getItem('splashShown') !== 'true';
@@ -96,7 +97,7 @@ function MainPage() {
                       item={item}
                       addToCart={(item) =>
                         addToCart(item, () =>
-                          callNotification('Item added to cart'),
+                          callNotification('item added to cart'),
                         )
                       }
                     />
@@ -112,6 +113,7 @@ function MainPage() {
               deleteFromCart,
               cartTotal,
               callNotification,
+              cartTotalItems,
             }}
           />
         </div>

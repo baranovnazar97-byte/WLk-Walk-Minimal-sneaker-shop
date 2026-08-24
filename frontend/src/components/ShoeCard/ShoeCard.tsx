@@ -37,7 +37,7 @@ const ShoeCard = ({ item, addToCart }: ShoeProp) => {
 
           <span className="card-brand">{item.brand}</span>
           <span className="card-category">{item.category}</span>
-          <p className="card-price">{item.price}</p>
+          <p className="card-price">${item.price}</p>
         </div>
       </div>
       <div className="card-buttons">

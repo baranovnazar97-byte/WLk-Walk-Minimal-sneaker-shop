@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import notFound from '../../../img/notFound.svg';
+import star from '../../../img/star.svg';
 import { CartItem } from '../../types/cart';
 import './CartCard.css';
 
@@ -14,28 +14,25 @@ const CartCard = ({ item, deleteFromCart, addToCart }: CartCardProps) => {
 
   return (
     <div className="cart-card">
-      <div className="card-img-wrapper">
-        <img
-          className={
-            item.imageUrl && !imageError ? 'card-img' : 'not-found-img'
-          }
-          src={item.imageUrl && !imageError ? item.imageUrl : notFound}
-          alt="image"
-          onError={() => setImageError(true)}
-        />
+      <div className="cart-img-wrapper">
+        <img className="cart-img" src={item.imageUrl} alt="image" />
       </div>
-      <div className="product-info">
+      <div className="cart-descr">
         <h2>{item.title}</h2>
-        <h2>{item.brand}</h2>
-        <h3>{item.category}</h3>
-        <h2 className="card-price">{item.price}</h2>
-        <p>Quantity: {item.quantity}</p>
+        <div className="cart-rating">
+          <img src={star} alt="star" />
+          <p>{item.rating}</p>
+        </div>
+        <p className="cart-brand">{item.brand}</p>
+        <p className="cart-category">{item.category}</p>
       </div>
       <div className="cart-buttons">
-        <button onClick={() => addToCart(item)}>+1</button>
-        <button onClick={() => deleteFromCart(item.shoe_id)}>
-          {item.quantity > 1 ? '-1' : 'Delete from cart'}
-        </button>
+        <button onClick={() => deleteFromCart(item.shoe_id)}>-</button>
+        <p>1</p>
+        <button onClick={() => addToCart(item)}>+</button>
+      </div>
+      <div className="cart-price">
+        <p>${item.price}</p>
       </div>
     </div>
   );
