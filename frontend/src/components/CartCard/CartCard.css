@@ -24,6 +24,10 @@
   max-height: 150px;
 }
 
+.not-found-cart {
+  min-height: 70px;
+}
+
 .cart-descr {
   display: flex;
   flex-direction: column;

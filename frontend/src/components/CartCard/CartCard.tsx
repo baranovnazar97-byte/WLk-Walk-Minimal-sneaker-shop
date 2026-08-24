@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import notFound from '../../../img/notFound.svg';
 import star from '../../../img/star.svg';
 import { CartItem } from '../../types/cart';
 import './CartCard.css';
@@ -15,7 +16,12 @@ const CartCard = ({ item, deleteFromCart, addToCart }: CartCardProps) => {
   return (
     <div className="cart-card">
       <div className="cart-img-wrapper">
-        <img className="cart-img" src={item.imageUrl} alt="image" />
+        <img
+          className={imageError ? 'not-found-cart' : 'cart-img'}
+          src={item.imageUrl && !imageError ? item.imageUrl : notFound}
+          alt="image"
+          onError={() => setImageError(true)}
+        />
       </div>
       <div className="cart-descr">
         <h2>{item.title}</h2>
@@ -28,7 +34,7 @@ const CartCard = ({ item, deleteFromCart, addToCart }: CartCardProps) => {
       </div>
       <div className="cart-buttons">
         <button onClick={() => deleteFromCart(item.shoe_id)}>-</button>
-        <p>1</p>
+        <p>{item.quantity}</p>
         <button onClick={() => addToCart(item)}>+</button>
       </div>
       <div className="cart-price">
