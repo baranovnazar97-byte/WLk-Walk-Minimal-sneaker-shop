@@ -52,10 +52,10 @@ const DetailedCard = () => {
               <div className="rating-container">
                 <div className="average-rating">
                   <img src={star} alt="star" />
-                  <span className="rating-value">5</span>
+                  <span className="rating-value">{card.rating}</span>
                 </div>
                 <span className="separator-dot"></span>
-                <span className="reviews-count">1000 reviews</span>
+                <span className="reviews-count">{card.quantity} reviews</span>
               </div>
             </div>
             <div className="detailed_card-sizes">

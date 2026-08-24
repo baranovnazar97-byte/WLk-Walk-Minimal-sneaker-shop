@@ -3,10 +3,26 @@ import { Shoe } from '../types/Shoe';
 
 export const shoesModelGet = async () => {
   const result = await query(
-    `SELECT s.shoe_id, brand, title, price, category, rating, quantity, image_url as "imageUrl"
-     FROM shoes s
-     LEFT JOIN ratings r ON r.shoe_id = s.shoe_id
-     ORDER BY s.shoe_id DESC`,
+    `SELECT
+      s.shoe_id,
+      s.brand,
+      s.title,
+      s.price,
+      s.category,
+      r.rating,
+      r.quantity,
+      s.image_url AS "imageUrl",
+      JSON_AGG(
+        JSON_BUILD_OBJECT(
+          'value', s2.sizes_value,
+          'stock', s2.stock_quantity
+        )
+        ORDER BY s2.sizes_value ASC
+      ) AS "sizes"
+    FROM shoes s
+    LEFT JOIN sizes s2 ON s.shoe_id = s2.shoe_id
+    left join ratings r on r.shoe_id = s.shoe_id
+    GROUP BY s.shoe_id, r.rating, r.quantity;`,
   );
 
   return result.rows;

@@ -13,6 +13,7 @@ interface ShoeProp {
 
 const ShoeCard = ({ item, addToCart }: ShoeProp) => {
   const [imageError, setImageError] = useState(false);
+
   return (
     <div className="shoe-card">
       <div className="card-img-wrapper">
@@ -42,7 +43,9 @@ const ShoeCard = ({ item, addToCart }: ShoeProp) => {
       </div>
       <div className="card-buttons">
         <Link to={`/shoes/${item.shoe_id}`}>read more</Link>
-        <button onClick={() => addToCart(item)}>add to cart</button>
+        {item.sizes[0].stock > 0 ? (
+          <button onClick={() => addToCart(item)}>add to cart</button>
+        ) : null}
       </div>
     </div>
   );
