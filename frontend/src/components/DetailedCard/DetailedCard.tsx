@@ -36,6 +36,9 @@ const DetailedCard = () => {
     fetchData();
   }, [id]);
 
+  const userDate = new Date();
+  userDate.setDate(userDate.getDate() + 7);
+
   return (
     <>
       {!card ? (
@@ -69,13 +72,13 @@ const DetailedCard = () => {
             </div>
             <div className="card_descr">
               <div className="characteristic-row">
-                <span className="detailed-card-label">composition</span>
+                <span className="detailed-card-label">material</span>
                 <span className="line"></span>
                 <span className="detailed-card-value">genuine leather</span>
               </div>
 
               <div className="characteristic-row">
-                <span className="detailed-card-label">model in the photo</span>
+                <span className="detailed-card-label">color shown</span>
                 <span className="line"></span>
                 <span className="detailed-card-value">black</span>
               </div>
@@ -96,11 +99,22 @@ const DetailedCard = () => {
                 </p>
               </div>
               <div className="order_buttons">
-                <button>add to cart</button>
-                <button>order now</button>
+                {card?.sizes[0].stock ? (
+                  <>
+                    <button>add to cart</button>
+                    <button>order now</button>
+                  </>
+                ) : (
+                  <p>item out of stock</p>
+                )}
               </div>
               <p className="order_date">
-                estimated delivery date: <span>unknown</span>
+                Estimated delivery:{' '}
+                <span>
+                  {card.sizes[0].stock
+                    ? `${userDate.toLocaleString('en-US', { month: 'long' })} ${userDate.getDate()}`
+                    : 'unknown'}
+                </span>
               </p>
             </div>
             <div className="order-other">
@@ -110,7 +124,7 @@ const DetailedCard = () => {
               </div>
               <div className="order-flex">
                 <img src={smile} alt="smile" />
-                <p>fitting available</p>
+                <p>try-on available</p>
               </div>
             </div>
           </div>

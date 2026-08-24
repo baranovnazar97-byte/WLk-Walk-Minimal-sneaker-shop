@@ -44,4 +44,9 @@
   cursor: pointer;
   background-color: #648ef8;
   color: #fff;
+  transition: background-color 0.15s;
+}
+
+.cart-order-btn:hover {
+  background-color: #4a73df;
 }

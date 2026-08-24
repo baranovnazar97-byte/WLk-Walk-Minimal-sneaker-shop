@@ -99,11 +99,21 @@
   button:nth-child(1) {
     background-color: #648ef8;
     color: #fff;
+    transition: background-color 0.15s;
+  }
+
+  button:nth-child(1):hover {
+    background-color: #4a73df;
   }
 
   button:nth-child(2) {
     background-color: #d1deff;
     color: #648ef8;
+    transition: background-color 0.15s;
+  }
+
+  button:nth-child(2):hover {
+    background-color: #b7cbff;
   }
 }
 

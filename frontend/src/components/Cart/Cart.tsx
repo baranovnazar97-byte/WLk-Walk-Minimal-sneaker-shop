@@ -15,6 +15,9 @@ const Cart = () => {
   const { cart, deleteFromCart, addToCart, cartTotal, cartTotalItems } =
     useOutletContext<ICart>();
 
+  const userDate = new Date();
+  userDate.setDate(userDate.getDate() + 7);
+
   return (
     <div className="cart">
       <div className="cart-grid">
@@ -44,8 +47,20 @@ const Cart = () => {
             <p>{cartTotal}</p>
           </div>
         </div>
-        <button className="cart-order-btn">order now</button>
-        <p>estimated delivery date: September 1</p>
+        {cartTotalItems > 0 ? (
+          <button className="cart-order-btn">order now</button>
+        ) : (
+          <p>cart is empty</p>
+        )}
+        {cartTotalItems > 0 ? (
+          <p className="order_date">
+            Estimated delivery:{' '}
+            <span>
+              {userDate.toLocaleString('en-US', { month: 'long' })}{' '}
+              {userDate.getDate()}
+            </span>
+          </p>
+        ) : null}
       </div>
     </div>
   );
