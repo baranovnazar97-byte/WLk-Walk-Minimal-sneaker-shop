@@ -72,9 +72,9 @@ function MainPage() {
         <Header editSearch={editSearch} splashScreen={splashScreen} />
       )}
       {!splashScreen && (
-        <div className="main-page">
+        <>
           {isHomePage && (
-            <>
+            <div className="main-page">
               <CatalogControls
                 filter={filter}
                 changeFilter={changeFilter}
@@ -103,20 +103,22 @@ function MainPage() {
                     />
                   ))}
               </div>
-            </>
+            </div>
           )}
 
-          <Outlet
-            context={{
-              cart,
-              addToCart,
-              deleteFromCart,
-              cartTotal,
-              callNotification,
-              cartTotalItems,
-            }}
-          />
-        </div>
+          <div className="page-content">
+            <Outlet
+              context={{
+                cart,
+                addToCart,
+                deleteFromCart,
+                cartTotal,
+                callNotification,
+                cartTotalItems,
+              }}
+            />
+          </div>
+        </>
       )}
       {notification !== '' ? (
         <div className="notification">{notification}</div>

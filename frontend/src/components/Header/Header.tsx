@@ -46,7 +46,7 @@ const Header = ({ editSearch, splashScreen }: IHeaderProps) => {
               <img src={cart} />
             </Link>
 
-            <Link to="#" className="user-button">
+            <Link to="/login" className="user-button">
               <img src={user} />
             </Link>
           </div>
