@@ -12,7 +12,11 @@ interface IHeaderProps {
 const Header = ({ editSearch, splashScreen }: IHeaderProps) => {
   const location = useLocation();
 
-  const isProductPage = location.pathname.startsWith('/shoes/');
+  const isProductPage =
+    location.pathname.startsWith('/shoes/') ||
+    location.pathname.startsWith('/login') ||
+    location.pathname.startsWith('/register') ||
+    location.pathname.startsWith('/cart');
   return (
     <>
       {splashScreen ? null : (
